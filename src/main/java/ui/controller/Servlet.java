@@ -9,12 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet("/Servlet")
 public class Servlet extends HttpServlet {
 
     ContactTracingService DB = new ContactTracingService();
 
+    HandlerFactory handlerFactory = new HandlerFactory();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
@@ -25,32 +27,16 @@ public class Servlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws  ServletException, IOException{
-        String command = "home";
-        if (request.getParameter("command") != null){
-            command = request.getParameter("command");
-        }
-
         String destination;
-        switch(command){
-            case "Overview":
-                destination = overview(request, response);
-                break;
-            default:
-                destination = home(request, response);
-                break;
+        try{
+            RequestHandler handler = handlerFactory.getHandler(request, response, DB);
+            destination = handler.handleRequest(request, response);
+        } catch (Exception e){
+            request.setAttribute("error", e.getMessage());
+            destination = "error.jsp";
         }
 
         request.getRequestDispatcher(destination).forward(request,response);
     }
 
-
-
-    private String home(HttpServletRequest request, HttpServletResponse response){
-        return "index.jsp";
-    }
-
-    private String overview(HttpServletRequest request, HttpServletResponse response) {
-        request.setAttribute("DB", DB.getPersons());
-        return "personoverview.jsp";
-    }
 }
