@@ -13,9 +13,10 @@
 <c:if test="${person==null}">
     <form method="post" action="Servlet?command=Home" novalidate="novalidate">
         <!-- novalidate in order to be able to run tests correctly -->
-        <p><label for="userid">User id</label><input type="text" id="userid" name="userid" value="${fn:excapeXml(useridPreviousValue)}"
+        <p><label for="userid">User id</label><input type="text" id="userid" name="userid" value="<c:out value ='${useridPreviousValue}'/>"
                                                      required></p>
-        <p><label for="password">Password</label><input type="password" id="password" name="password" required></p>
+        <p><label for="password">Password</label><input type="password" id="password" name="password" value="${password}"
+                                                        required></p>
         <p><input type="submit" id="logIn" value="Log in"></p>
     </form>
 </c:if>

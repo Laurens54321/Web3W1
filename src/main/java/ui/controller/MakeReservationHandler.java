@@ -2,18 +2,22 @@ package ui.controller;
 
 import domain.db.DbException;
 import domain.model.AuthorizationException;
+import domain.model.DomainException;
 import domain.model.Person;
 import domain.model.Reservation;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class MakeReservationHandler extends RequestHandler{
     @Override
     public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, AuthorizationException, IOException {
+
+
         ArrayList<String> errors = new ArrayList();
 
         Person p = (Person) request.getAttribute("person");
@@ -29,7 +33,6 @@ public class MakeReservationHandler extends RequestHandler{
             System.out.println("Errors so far after processing fields:\n" + errors);
             if (errors.size() > 0){
                 request.setAttribute("errors", errors);
-
                 request.getRequestDispatcher("Servlet?command=Profile").forward(request,response);
             }
             try{
@@ -39,10 +42,12 @@ public class MakeReservationHandler extends RequestHandler{
                 request.setAttribute("errors", errors);
                 request.getRequestDispatcher("Servlet?command=Profile").forward(request,response);
             }
+
+            System.out.println(errors);
         }
 
 
-        response.sendRedirect("Servlet?command=Overview");
+        request.getRequestDispatcher("Servlet?command=Overview").forward(request,response);
     }
 
 

@@ -27,13 +27,12 @@ public class LogInHandler extends RequestHandler {
         }
 
         if (person != null && !loginAccept) {
-            request.setAttribute("useridPreviousValue", userid);
             request.setAttribute("errors", "Password Incorrect");
         }
         if (!userid.isEmpty() && person == null){
             request.setAttribute("errors", "Username not found");
         }
 
-        response.sendRedirect("profile.jsp");
+        request.getRequestDispatcher("profile.jsp").forward(request,response);
     }
 }

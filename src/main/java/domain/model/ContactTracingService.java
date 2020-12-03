@@ -7,8 +7,6 @@ import domain.db.ReservationDBSQL;
 import java.lang.reflect.Array;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 public class ContactTracingService {
     private PersonDBSQL personDBSQL = new PersonDBSQL();
@@ -73,7 +71,7 @@ public class ContactTracingService {
             return null;
         }
         else {
-            Set<Reservation> returnList = new HashSet<>();
+            ArrayList<Reservation> returnList = new ArrayList<>();
             ArrayList<Reservation> reservations =  reservationDBSQL.getReservationWithUserid(userid);
             for (Reservation r : reservations) {
                 for (CoronaTest test : tests) {
@@ -82,7 +80,7 @@ public class ContactTracingService {
                     }
                 }
             }
-            return new ArrayList<>(returnList);
+            return returnList;
         }
     }
 
@@ -90,11 +88,13 @@ public class ContactTracingService {
         return reservationDBSQL.getReservationWithUserid(userid);
     }
 
+    public void deleteAllReservations(){
+        reservationDBSQL.removeAll();
+    }
+
     public ArrayList<CoronaTest> getAllTests() { return coronaTestDBSQL.getAll(); }
 
     public void addTest(CoronaTest test) { coronaTestDBSQL.add(test); }
 
     public ArrayList<CoronaTest> getTestByUserid(String userid) { return coronaTestDBSQL.getTestByUserid(userid); }
-
-    public void deleteAllReservations() { reservationDBSQL.removeAll();}
 }

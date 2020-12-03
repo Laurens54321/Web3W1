@@ -13,8 +13,8 @@ public class LogOutHandler extends RequestHandler {
     public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, AuthorizationException, IOException {
         Person p = (Person) request.getAttribute("person");
         if (p == null) throw new AuthorizationException();
-
         request.getSession().removeAttribute("person");
         request.getRequestDispatcher("index.jsp").forward(request,response);
+
     }
 }

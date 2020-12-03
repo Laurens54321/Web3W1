@@ -32,7 +32,7 @@
             </div>
         </c:if>
         <form method="post" action="Servlet?command=MakeTest" novalidate="novalidate">
-            <p><label for="date">Date </label><input type="date" id="date" name="date" required value="${fn:escapeXml(datePreviousValue)}"></p>
+            <p><label for="date">Date </label><input type="date" id="date" name="date" required value="<c:out value ='${datePreviousValue}' />"></p>
             <p><input type="submit" id="submit" value="Test Positive"></p>
         </form>
     </main>

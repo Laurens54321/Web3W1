@@ -13,18 +13,20 @@ import java.util.ArrayList;
 public class YourReservationsHandler extends RequestHandler{
     @Override
     public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, AuthorizationException, IOException {
-        Person p = (Person) request.getAttribute("person");
-        if (p == null) throw new AuthorizationException();
+        Person user = (Person) request.getAttribute("person");
+        if (user != null) throw new AuthorizationException("You need to be logged out to sign up");
         else{
-            ArrayList<Reservation> reservations = getDB().getInRangeReservationsByUserid(p.getUserid());
+            ArrayList<Reservation> reservations = getDB().getInRangeReservationsByUserid(user.getUserid());
             if (reservations == null || reservations.isEmpty()){
                 request.setAttribute("messages", "You have no contacts");
+                request.getRequestDispatcher("yourreservations.jsp").forward(request,response);
             }
             else{
                 request.setAttribute("reservations", reservations);
+                request.getRequestDispatcher("yourreservations.jsp").forward(request,response);
             }
-            request.getRequestDispatcher("yourreservations.jsp").forward(request,response);
 
         }
+
     }
 }

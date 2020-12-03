@@ -44,7 +44,7 @@
                 <form method="post" action="Servlet?command=LogIn" novalidate>
                     <p>
                         <label for="userid">User id</label>
-                        <input type="text" id="userid" name="userid" required value="${fn:excapeXml(userIdPreviousValue)}">
+                        <input type="text" id="userid" name="userid" required value="<c:out value ='${userIdPreviousValue}'/>">
                     </p>
                     <p>
                         <label for="password">Password</label>
@@ -88,11 +88,11 @@
                                                                              name="endTime" value="${endTimePreviousValue}"
                                                                              required value=""></p>
                     <p><label for="field">Field</label><input type="text" id="field" name="field"
-                                                              value="${fieldPreviousValue}" required></p>
+                                                              value="<c:out value ='${fieldPreviousValue}' />" required></p>
                     <p><label for="phonenr">Phone Number</label><input type="text" id="phonenr" name="phonenr"
-                                                                value="${phonenrPreviousValue}" required></p>
+                                                                value="<c:out value ='${phonenrPreviousValue}' />" required></p>
                     <p><label for="email">Email</label><input type="email" id="email" name="email"
-                                                                       value="${emailPreviousValue}" required></p>
+                                                                       value="<c:out value ='${emailPreviousValue}' />" required></p>
                     <p><input type="submit" id="makeReservation" value="Make Reservation"></p>
                 </form>
 

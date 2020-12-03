@@ -62,15 +62,6 @@
             </tr>
             </c:forEach>
         </table>
-
-        <c:if test="${person.isAdmin()}">
-            <form method="post" action="Servlet?command=RemoveAllPersons">
-                <p id="removeAllPersonButton">
-                    <input type="submit" id="removeAllPersons" value="&#128128;">
-                </p>
-            </form>
-        </c:if>
-        
     </main>
     <footer>&copy; Webontwikkeling 3, UC Leuven-Limburg</footer>
 </div>

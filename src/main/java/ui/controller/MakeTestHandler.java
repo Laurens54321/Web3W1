@@ -2,12 +2,15 @@ package ui.controller;
 
 import domain.db.DbException;
 import domain.model.Person;
+import domain.model.Reservation;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 import domain.model.*;
 
@@ -28,7 +31,7 @@ public class MakeTestHandler extends RequestHandler {
             if (errors.size() > 0){
                 System.out.println(test.toString());
                 request.setAttribute("errors", errors);
-                request.getRequestDispatcher("Servlet?command=YourReservations").forward(request,response);
+                request.getRequestDispatcher("Servlet?command=YourContacts").forward(request,response);
             }
 
             try{
@@ -39,7 +42,7 @@ public class MakeTestHandler extends RequestHandler {
                 request.setAttribute("errors", errors);
 
             }
-            response.sendRedirect("Servlet?command=YourReservations");
+            request.getRequestDispatcher("Servlet?command=YourContacts").forward(request,response);
         }
     }
 
