@@ -30,24 +30,128 @@
                 </ul>
             </div>
         </c:if>
-        <form method="post" action="Servlet?command=SignUp" novalidate="novalidate">
+        <form id="signup" method="post" action="Servlet?command=SignUp" novalidate="novalidate">
             <!-- novalidate in order to be able to run tests correctly -->
-            <p><label for="userid">User id</label><input type="text" id="userid" name="userid" value="<c:out value ='${useridPreviousValue}'/>"
-                                                         required></p>
-            <p><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName" value="<c:out value ='${firstNamePreviousValue}'/>"
-                                                               required value=""></p>
-            <p><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName" value="<c:out value ='${ lastNamePreviousValue}'/>"
-                                                             required></p>
-            <p><label for="email">Email</label><input type="email" id="email" name="email" value="<c:out value ='${emailPreviousValue}'/>" required></p>
-            <p><label for="password">Password</label><input type="password" id="password" name="password" value="<c:out value ='${passwordPreviousValue}' />"
-                                                            required></p>
-            <p><input type="submit" id="signUp" value="Sign Up"></p>
+            <label for="userid">User id</label>
+            <input type="text" id="userid" name="userid" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$"  value="<c:out value ='${useridPreviousValue}'/>" required>
 
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" value="<c:out value ='${firstNamePreviousValue}'/>" required value="">
+
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" value="<c:out value ='${ lastNamePreviousValue}'/>" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" value="<c:out value ='${emailPreviousValue}'/>" required>
+
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{8,20}$" required>
+                <progress id="progress" value="0" max="100">70</progress>
+                <span id="progresslabel"></span>
+
+
+            <input type="submit" id="submit" value="Sign Up">
         </form>
     </main>
     <footer>
         &copy; Webontwikkeling 3, UC Leuven-Limburg
     </footer>
 </div>
+
+<script src="passwordStrengthBar.js">
+    document.addEventListener("blur", checkField, true);  //check every field every time no field is selected
+
+    document.addEventListener("submit", finalValidation, false); //submit button
+
+    function checkField(event) {
+        let error = hasError(event.target);
+        if (error)
+            showError(event.target, error);
+        else
+            removeError(event.target);
+    }
+
+    function finalValidation(event) {
+        let fields = event.target.elements;
+        let error, hasErrors;
+        for (let i = 0; i < fields.length; i++) {
+            error = hasError(fields[i]);
+            if (error) {
+                showError(fields[i], error);
+                if (!hasErrors) {
+                    hasErrors = fields[i];
+                }
+            }
+
+        }
+
+        if (hasErrors) {
+            event.preventDefault();
+            hasErrors.focus();
+        }
+    }
+
+    function hasError(field) {
+        if (field.disabled || field.type === "file" || field.type === "submit") //errors do not apply to these fields
+            return;
+
+        let validity = field.validity;
+        if (validity == null || validity.valid) {
+            return;
+        }
+
+        if (validity.valueMissing) {
+            return "This field cannot be empty";
+        }
+        if (validity.typeMismatch) {
+            return "Please use the correct input type";
+        }
+        if (validity.patternMismatch) {
+            if (field.type === "text") {
+                return "This field must contain at least 4 characters";
+            }
+        }
+        return "Please complete the form correct";
+    }
+
+    /**
+     * Removes all error messages and signals related to the given field
+     * @param field
+     */
+
+    function removeError(field) {
+        if (field.classList != null && field.classList.length > 0) {
+            field.classList.remove("error");
+            let id = field.id;
+            let message = document.getElementById("error-for-" + id);
+            if (message != null)
+                message.parentNode.removeChild(message);
+        }
+    }
+
+    /**
+     * Generates error message with given text 'error' for the given field
+     * The error message has id 'error-for-'+id with id the of the given field
+     * The error message is inserted after the given field
+     */
+
+    function showError(field, error) {
+        field.classList.add("error");
+        let id = field.id;
+        if (!id)
+            return;
+        let message = document.getElementById("error-for-" + id);
+        if (!message) {
+            message = document.createElement("span");
+            message.className = "error";
+            message.id = "error-for-" + id;
+            field.parentNode.insertBefore(message, field.nextSibling);
+        }
+        message.innerHTML = error;
+    }
+
+</script>
+
 </body>
 </html>

@@ -22,8 +22,8 @@ public class RegisterPage extends Page {
     @FindBy(id = "password")
     WebElement passwordField;
 
-    @FindBy(id = "signUp")
-    WebElement signUpButton;
+    @FindBy(id = "submit")
+    WebElement submitButton;
 
     public RegisterPage(WebDriver driver) {
         super(driver);
@@ -72,11 +72,11 @@ public class RegisterPage extends Page {
     }
 
     public HomePage submitValid(){
-        signUpButton.click();
+        submitButton.click();
         return PageFactory.initElements(driver, HomePage.class); //Not sure what this does, got it from 'https://github.com/UCLLWeb3-2021-sem1-students/week08_page_objects/blob/master/src/test/java/SignUpPage.java'
     }
 
     public void submitInvalid(){
-        signUpButton.click();
+        submitButton.click();
     }
 }

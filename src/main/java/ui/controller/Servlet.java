@@ -34,10 +34,8 @@ public class Servlet extends HttpServlet {
             request.setAttribute("errors", e.getMessage());
             System.out.println(e.getMessage());
             destination = "error.jsp";
+            request.getRequestDispatcher(destination).forward(request,response);
         }
-
-        request.getRequestDispatcher(destination).forward(request,response);
-
 
     }
 

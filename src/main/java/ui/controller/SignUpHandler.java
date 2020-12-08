@@ -20,7 +20,7 @@ public class SignUpHandler extends RequestHandler {
         //String password = request.getParameter("password");
 
         Person user = (Person) request.getAttribute("person");
-        if (user != null) throw new AuthorizationException("You need to be logged out to sign up");
+        if (user != null) throw new AuthorizationException();
 
 
         Person p = new Person();

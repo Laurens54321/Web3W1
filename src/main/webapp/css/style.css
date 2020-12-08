@@ -84,7 +84,39 @@ form {
 	width: 1rem;
 
 	background-image: url("../images/corona.png");
+}
 
+form#signup {
+	width: 100%;
+	display: grid;
+	grid-template-columns: [label] 1fr [input] 1fr [message] 2fr;
+	grid-column-gap: 1em;
+	grid-row-gap: 1em;
+	justify-items: end;
+}
+
+form#signup label {
+	grid-column: label/input;
+	line-height: 1.7em;
+}
+
+form#signup input{
+	grid-column: input/message;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+form#signup progress{
+	grid-column: input/message;
+	width: 100%;
+	line-height: 1.7em;
+}
+
+form#signup span{
+	grid-column: message;
+	line-height: 1.7em;
+	align-self: start;
+	width: 100%;
 }
 
 .alert-danger {
