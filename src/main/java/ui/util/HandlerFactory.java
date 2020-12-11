@@ -1,6 +1,7 @@
-package ui.controller;
+package ui.util;
 
 import domain.model.ContactTracingService;
+import ui.controller.RequestHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

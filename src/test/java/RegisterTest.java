@@ -1,8 +1,6 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +27,7 @@ public class RegisterTest {
 
     @After
     public void clean() {
-        driver.quit();
+        //driver.quit();
     }
 
     @Test
@@ -41,50 +39,30 @@ public class RegisterTest {
         registerPage.setFirstName("Jan");
         registerPage.setLastName("Janssens");
         registerPage.setEmail("jan.janssens@hotmail.com");
-        registerPage.setPassword("1234");
+        registerPage.setPassword("A1a&wateenwachtwoordzeg");
 
-        HomePage homePage = registerPage.submitValid();
+        PersonOverviewPage personOverviewPage = registerPage.submitValid();
 
-        assertEquals("home", homePage.getTitle());
+        assertEquals("Overview", personOverviewPage.getTitle());
+        assertTrue(personOverviewPage.containsUserWithUserid(useridRandom));
 
-        driver.get(path+"?command=Overview");
-
-        String title = driver.getTitle();
-        assertEquals("Overview",title);
-
-
-
-        ArrayList<WebElement> listItems=(ArrayList<WebElement>) driver.findElements(By.cssSelector("table tr"));
-        boolean found=false;
-        for (WebElement listItem:listItems) {
-            if (listItem.getText().contains("jan.janssens@hotmail.com") &&  listItem.getText().contains(useridRandom)) {
-                found=true;
-            }
-        }
-        assertTrue(found);
     }
 
     @Test
     public void test_Register_UseridNotFilledIn_ErrorMessageGivenForUseridAndOtherFieldsValueKept(){
-        submitForm("", "Jan", "Janssens", "jan.janssens@hotmail.com", "1234");
 
-        String title = driver.getTitle();
-        assertEquals("Sign Up",title);
+        RegisterPage registerPage = PageFactory.initElements(driver, RegisterPage.class);
+        registerPage.setFirstName("Jan");
+        registerPage.setLastName("Janssens");
+        registerPage.setEmail("jan.janssens@hotmail.com");
+        registerPage.setPassword("A1a&wateenwachtwoordzeg");
 
-        WebElement errorMsg = driver.findElement(By.cssSelector("div.alert-danger ul li"));
-        assertEquals("No userid given", errorMsg.getText());
+        registerPage.submitInvalid();
+        assertEquals("Sign up",registerPage.getTitle());
+        assertTrue(registerPage.hasStickyFirstName("Jan"));
+        assertTrue(registerPage.hasStickyLastName("Janssens"));
+        assertTrue(registerPage.hasStickyEmail("jan.janssens@hotmail.com"));
 
-        WebElement fieldUserid=driver.findElement(By.id("userid"));
-        assertEquals("",fieldUserid.getAttribute("value"));
-
-        WebElement fieldFirstName=driver.findElement(By.id("firstName"));
-        assertEquals("Jan",fieldFirstName.getAttribute("value"));
-
-        WebElement fieldLastName=driver.findElement(By.id("lastName"));
-        assertEquals("Janssens",fieldLastName.getAttribute("value"));
-
-        WebElement fieldEmail=driver.findElement(By.id("email"));
-        assertEquals("jan.janssens@hotmail.com",fieldEmail.getAttribute("value"));
     }
 
     @Test

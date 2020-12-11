@@ -1,7 +1,8 @@
 package ui.controller;
 
-import domain.model.AuthorizationException;
+import domain.model.NotAuthorizedException;
 import domain.model.Person;
+import ui.util.Authorization;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +11,10 @@ import java.io.IOException;
 
 public class LogInHandler extends RequestHandler {
     @Override
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, AuthorizationException, IOException {
+    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
+        Person.Role[] roles = {Person.Role.guest};
+        Authorization.checkrole(request, roles);
+
         String userid = request.getParameter("userid");
         Person person = getDB().findPerson(userid);
 

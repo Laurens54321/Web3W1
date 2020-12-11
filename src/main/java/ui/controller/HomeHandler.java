@@ -1,6 +1,6 @@
 package ui.controller;
 
-import domain.model.AuthorizationException;
+import domain.model.NotAuthorizedException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +10,7 @@ import java.io.IOException;
 public class HomeHandler extends RequestHandler{
 
     @Override
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, AuthorizationException, IOException {
+    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
         request.getRequestDispatcher("index.jsp").forward(request,response);
     }
 }

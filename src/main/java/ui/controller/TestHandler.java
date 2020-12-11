@@ -2,47 +2,52 @@ package ui.controller;
 
 import domain.db.DbException;
 import domain.model.Person;
-import domain.model.Reservation;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 import domain.model.*;
+import ui.util.Authorization;
 
-public class MakeTestHandler extends RequestHandler {
+public class TestHandler extends RequestHandler {
     @Override
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, AuthorizationException, IOException {
-        Person p = (Person) request.getAttribute("person");
-        if (p == null) throw new AuthorizationException();
-        else{
-            ArrayList<String> errors = new ArrayList<>();
+    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
+        Person.Role[] roles = {Person.Role.user, Person.Role.administrator};
+        Authorization.checkrole(request, roles);
 
-            CoronaTest test = new CoronaTest();
-            setUserid(test, request, errors);
-            setDate(test, request, errors);
-            setPositive(test, request, errors);
+        if (request.getMethod().equals("POST")){
+            Person p = (Person) request.getAttribute("person");
+            if (p == null) throw new NotAuthorizedException();
+            else{
+                ArrayList<String> errors = new ArrayList<>();
+
+                CoronaTest test = new CoronaTest();
+                setUserid(test, request, errors);
+                setDate(test, request, errors);
+                setPositive(test, request, errors);
 
 
-            if (errors.size() > 0){
-                System.out.println(test.toString());
-                request.setAttribute("errors", errors);
+                if (errors.size() > 0){
+                    System.out.println(test.toString());
+                    request.setAttribute("errors", errors);
+                    request.getRequestDispatcher("Servlet?command=YourContacts").forward(request,response);
+                }
+
+                try{
+                    getDB().addTest(test);
+                } catch (Exception e){
+                    System.out.println("error?");
+                    errors.add(e.getMessage());
+                    request.setAttribute("errors", errors);
+                }
                 request.getRequestDispatcher("Servlet?command=YourContacts").forward(request,response);
             }
-
-            try{
-                getDB().addTest(test);
-            } catch (Exception e){
-                System.out.println("error?");
-                errors.add(e.getMessage());
-                request.setAttribute("errors", errors);
-
-            }
-            request.getRequestDispatcher("Servlet?command=YourContacts").forward(request,response);
+        }
+        else{
+            response.sendRedirect("registertest.jsp");
         }
     }
 

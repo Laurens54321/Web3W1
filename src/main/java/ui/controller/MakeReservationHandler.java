@@ -1,27 +1,27 @@
 package ui.controller;
 
 import domain.db.DbException;
-import domain.model.AuthorizationException;
-import domain.model.DomainException;
+import domain.model.NotAuthorizedException;
 import domain.model.Person;
 import domain.model.Reservation;
+import ui.util.Authorization;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class MakeReservationHandler extends RequestHandler{
     @Override
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, AuthorizationException, IOException {
-
+    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
+        Person.Role[] roles = {Person.Role.user, Person.Role.administrator};
+        Authorization.checkrole(request, roles);
 
         ArrayList<String> errors = new ArrayList();
 
         Person p = (Person) request.getAttribute("person");
-        if (p == null) throw new AuthorizationException();
+        if (p == null) throw new NotAuthorizedException();
         else{
             Reservation r = new Reservation(p);
             setstartTime(r, request, errors);

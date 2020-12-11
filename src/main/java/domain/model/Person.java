@@ -17,6 +17,7 @@ public class Person {
 
 	public enum Role{
 		guest,
+		user,
 		administrator
 	}
 

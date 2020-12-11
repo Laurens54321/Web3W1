@@ -1,6 +1,6 @@
 package ui.controller;
 
-import domain.model.AuthorizationException;
+import domain.model.NotAuthorizedException;
 import domain.model.ContactTracingService;
 
 import javax.servlet.ServletException;
@@ -12,7 +12,7 @@ public abstract class RequestHandler {
 
     protected ContactTracingService DB;
 
-    public abstract void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, AuthorizationException, IOException;
+    public abstract void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException;
 
     public void setDB(ContactTracingService service) { this.DB = service; }
 

@@ -17,7 +17,7 @@ public class PersonOverviewPage extends Page {
         this.driver.get(getPath()+"?command=Overview");
     }
 
-    public boolean containsUserWithEmail(String email) {
+    public boolean containsUserWithUserid(String email) {
         ArrayList<WebElement> listItems=(ArrayList<WebElement>) this.driver.findElements(By.cssSelector("td"));
         boolean found=false;
         for (WebElement listItem:listItems) {

@@ -1,20 +1,20 @@
 package domain.model;
 
-public class AuthorizationException extends Exception {
+public class NotAuthorizedException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
-    public AuthorizationException() {super(); }
+    public NotAuthorizedException() {super(); }
 
-    public AuthorizationException(String message, Throwable exception) {
+    public NotAuthorizedException(String message, Throwable exception) {
         super(message, exception);
     }
 
-    public AuthorizationException(String message) {
+    public NotAuthorizedException(String message) {
         super(message);
     }
 
-    public AuthorizationException(Throwable exception) {
+    public NotAuthorizedException(Throwable exception) {
         super(exception);
     }
 

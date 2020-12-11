@@ -1,7 +1,8 @@
 package ui.controller;
 
-import domain.model.AuthorizationException;
+import domain.model.NotAuthorizedException;
 import domain.model.Person;
+import ui.util.Authorization;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,9 +12,10 @@ import java.io.IOException;
 public class AllReservationsHandler extends RequestHandler {
 
     @Override
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, AuthorizationException, IOException {
-        Person p = (Person) request.getAttribute("person");
-        if (p == null) throw new AuthorizationException();
+    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
+        Person.Role[] roles = {Person.Role.administrator};
+        Authorization.checkrole(request, roles);
+
         request.setAttribute("reservations", DB.getAllReservations());
         request.getRequestDispatcher("allreservations.jsp").forward(request,response);
     }

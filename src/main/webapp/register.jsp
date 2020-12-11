@@ -30,8 +30,7 @@
                 </ul>
             </div>
         </c:if>
-        <form id="signup" method="post" action="Servlet?command=SignUp" novalidate="novalidate">
-            <!-- novalidate in order to be able to run tests correctly -->
+        <form id="signup" method="post" action="Servlet?command=Register">
             <label for="userid">User id</label>
             <input type="text" id="userid" name="userid" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$"  value="<c:out value ='${useridPreviousValue}'/>" required>
 
@@ -45,10 +44,10 @@
             <input type="email" id="email" name="email" required pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" value="<c:out value ='${emailPreviousValue}'/>" required>
 
 
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{8,20}$" required>
-                <progress id="progress" value="0" max="100">70</progress>
-                <span id="progresslabel"></span>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{8,20}$" required>
+            <meter max="4" id="password-strength-meter"></meter>
+            <p id="password-strength-text"></p>
 
 
             <input type="submit" id="submit" value="Sign Up">
@@ -59,7 +58,7 @@
     </footer>
 </div>
 
-<script src="passwordStrengthBar.js">
+<script>
     document.addEventListener("blur", checkField, true);  //check every field every time no field is selected
 
     document.addEventListener("submit", finalValidation, false); //submit button
@@ -151,6 +150,36 @@
         message.innerHTML = error;
     }
 
+
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js">
+    var password = document.getElementById('password');
+    var meter = document.getElementById('password-strength-meter');
+    var text = document.getElementById('password-strength-text');
+
+    var strength = {
+        0: "Worst",
+        1: "Bad",
+        2: "Weak",
+        3: "Good",
+        4: "Strong"
+    }
+
+    password.addEventListener('input', function() {
+        var val = password.value;
+        var result = zxcvbn(val);
+
+        // Update the password strength meter
+        meter.value = result.score;
+
+        // Update the text indicator
+        if (val !== "") {
+            text.innerHTML = "Strength: " + strength[result.score];
+        } else {
+            text.innerHTML = "";
+        }
+    });
 </script>
 
 </body>

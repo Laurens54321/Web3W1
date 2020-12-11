@@ -1,5 +1,6 @@
 package pages;
 
+import domain.model.Person;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,10 +11,10 @@ public class RegisterPage extends Page {
     @FindBy(id = "userid")
     WebElement useridField;
 
-    @FindBy(id = "fisrtname")
+    @FindBy(id = "firstName")
     WebElement firstNameField;
 
-    @FindBy(id = "lastname")
+    @FindBy(id = "lastName")
     WebElement lastNameField;
 
     @FindBy(id = "email")
@@ -71,9 +72,9 @@ public class RegisterPage extends Page {
         passwordField.sendKeys(password);
     }
 
-    public HomePage submitValid(){
+    public PersonOverviewPage submitValid(){
         submitButton.click();
-        return PageFactory.initElements(driver, HomePage.class); //Not sure what this does, got it from 'https://github.com/UCLLWeb3-2021-sem1-students/week08_page_objects/blob/master/src/test/java/SignUpPage.java'
+        return PageFactory.initElements(driver, PersonOverviewPage.class); //Not sure what this does, got it from 'https://github.com/UCLLWeb3-2021-sem1-students/week08_page_objects/blob/master/src/test/java/SignUpPage.java'
     }
 
     public void submitInvalid(){

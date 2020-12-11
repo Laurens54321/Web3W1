@@ -1,7 +1,8 @@
-package ui.controller;
+package ui.util;
 
-import domain.model.AuthorizationException;
+import domain.model.NotAuthorizedException;
 import domain.model.ContactTracingService;
+import ui.controller.RequestHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,13 +31,14 @@ public class Servlet extends HttpServlet {
         try{
             RequestHandler handler = handlerFactory.getHandler(request, response, DB);
             handler.handleRequest(request, response);
-        } catch (ServletException | AuthorizationException e){
+        } catch (NotAuthorizedException e){
+            request.setAttribute("errors", "You do not have Access to that page");
+            request.getRequestDispatcher("index.jsp").forward(request,response);
+        } catch (ServletException e){
             request.setAttribute("errors", e.getMessage());
             System.out.println(e.getMessage());
             destination = "error.jsp";
             request.getRequestDispatcher(destination).forward(request,response);
         }
-
     }
-
 }

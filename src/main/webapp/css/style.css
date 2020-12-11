@@ -102,7 +102,6 @@ form#signup label {
 
 form#signup input{
 	grid-column: input/message;
-	width: 100%;
 	box-sizing: border-box;
 }
 
@@ -112,12 +111,35 @@ form#signup progress{
 	line-height: 1.7em;
 }
 
-form#signup span{
-	grid-column: message;
+meter{
+	grid-column: input;
 	line-height: 1.7em;
 	align-self: start;
 	width: 100%;
+
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+
+	margin: 0 auto 1em;
+	width: 100%;
+	height: 0.5em;
+
+	/* Applicable only to Firefox */
+	background: none;
+	background-color: rgba(0, 0, 0, 0.1);
 }
+
+meter::-webkit-meter-bar {
+	background: none;
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+meter[value="1"]::-webkit-meter-optimum-value { background: red; }
+meter[value="2"]::-webkit-meter-optimum-value { background: yellow; }
+meter[value="3"]::-webkit-meter-optimum-value { background: orange; }
+meter[value="4"]::-webkit-meter-optimum-value { background: green; }
+
 
 .alert-danger {
     padding: 0.5em;
