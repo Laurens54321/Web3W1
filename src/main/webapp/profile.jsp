@@ -16,6 +16,7 @@
     </c:if>
 
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="scripts/validateFormScript.js"></script>
 </head>
 <body>
 <div id="container">
@@ -41,7 +42,7 @@
                     </div>
                 </c:if>
 
-                <form method="post" action="Servlet?command=LogIn" novalidate>
+                <form name="logInForm" onsubmit="return validateLogInForm()" method="post" action="Servlet?command=LogIn" novalidate>
                     <p>
                         <label for="userid">User id</label>
                         <input type="text" id="userid" name="userid" required value="<c:out value ='${userIdPreviousValue}'/>">

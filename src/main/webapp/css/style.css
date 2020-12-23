@@ -118,7 +118,7 @@ form {
 form#signup {
 	width: 100%;
 	display: grid;
-	grid-template-columns: [label] 1fr [input] 1fr [message] 2fr;
+	grid-template-columns: [label] 0.5fr [input] 1.5fr [message] 0fr;
 	grid-column-gap: 1em;
 	grid-row-gap: 1em;
 	justify-items: end;
@@ -182,6 +182,7 @@ meter[value="4"]::-webkit-meter-optimum-value { background: green; }
 
 	margin-left: 10px;
 	margin-right: 10px;
+	margin: auto;
 
 }
 
@@ -242,7 +243,7 @@ nav ul li:first-child {
 label,input,textarea {
     display: block;
 }
-input[type="text"], input[type="email"], textarea {
+input[type="text"], input[type="email"], input[type="password"], textarea {
     width: 100%;
 }
 input {
@@ -310,6 +311,11 @@ input {
     textarea {
         vertical-align: middle;    
     }
+
+	form#signup {
+		grid-template-columns: [label] 1fr [input] 1fr [message] 2fr;
+
+	}
 
 	main p{
 
