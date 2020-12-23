@@ -22,6 +22,7 @@ div#container {
 footer {
 	background-color: #1c2a5d;
 	border-radius: 8px;
+	padding: 15px 10px;
 }
 
 nav{
@@ -62,13 +63,16 @@ nav ul li#actual {
 }
 
 
-h2, main, footer {
-	padding: 15px 10px;
+
+
+h2 {
+	padding-left: 30px;
+	padding: 5px 30px;
 }
 
 main .index p {
-	padding-top: 20px;
-	padding-bottom: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 main div{
@@ -80,8 +84,17 @@ main div{
 	margin: 5px;
 }
 
+main {
+	padding: 5px 10px;
+}
+
 div p {
 	font-size: medium;
+}
+
+.index {
+	padding: 10px;
+	margin: 10px 0;
 }
 
 .members{
@@ -192,11 +205,9 @@ meter[value="4"]::-webkit-meter-optimum-value { background: green; }
 	border: 1px solid #0f4c91;
 	color: #14549f;
 	border-radius: 3px;
-	margin-bottom: 1em;
 	box-sizing: border-box;
 	text-decoration: none;
-	margin-left: 10px;
-	margin-right: 10px;
+	margin: 0px 15px;
 }
 
 .message p {
@@ -226,9 +237,11 @@ input,textarea {
 }
 
 
+
 /* mobile first */
 div#container {
 	width: 95%;
+	padding: 0.6em;
 }
 
 nav ul li {

@@ -33,17 +33,17 @@ public class TestHandler extends RequestHandler {
                 if (errors.size() > 0){
                     System.out.println(test.toString());
                     request.setAttribute("errors", errors);
-                    request.getRequestDispatcher("Servlet?command=YourContacts").forward(request,response);
+                    request.getRequestDispatcher("registertest.jsp").forward(request,response);
+                } else{
+                    try{
+                        getDB().addTest(test);
+                    } catch (Exception e){
+                        errors.add(e.getMessage());
+                        request.setAttribute("errors", errors);
+                        request.getRequestDispatcher("registertest.jsp").forward(request,response);
+                    }
+                    request.getRequestDispatcher("Servlet?command=YourReservations").forward(request,response);
                 }
-
-                try{
-                    getDB().addTest(test);
-                } catch (Exception e){
-                    System.out.println("error?");
-                    errors.add(e.getMessage());
-                    request.setAttribute("errors", errors);
-                }
-                request.getRequestDispatcher("Servlet?command=YourContacts").forward(request,response);
             }
         }
         else{
