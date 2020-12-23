@@ -19,7 +19,7 @@ public class TestHandler extends RequestHandler {
         Authorization.checkrole(request, roles);
 
         if (request.getMethod().equals("POST")){
-            Person p = (Person) request.getAttribute("person");
+            Person p = (Person) request.getSession().getAttribute("person");
             if (p == null) throw new NotAuthorizedException();
             else{
                 ArrayList<String> errors = new ArrayList<>();

@@ -17,9 +17,7 @@
 <body>
 <div id="container">
     <header>
-        <h1>
-            <span>XXX</span>
-        </h1>
+        <h1>Sportzaal Heverlee</h1>
         <jsp:include page="nav.jsp">
             <jsp:param name="page" value="profile"/>
         </jsp:include>
@@ -27,11 +25,7 @@
 
         <c:if test="${not empty errors}">
             <div class="alert-danger">
-                <ul>
-                    <c:forEach items="${errors}" var="error">
-                        <li>${errors}</li>
-                    </c:forEach>
-                </ul>
+                <p>${errors}</p>
             </div>
         </c:if>
 

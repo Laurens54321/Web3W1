@@ -20,7 +20,7 @@
 <body>
 <div id="container">
     <header>
-        <h1><span>XXX</span></h1>
+        <h1>Sportzaal Heverlee</h1>
         <jsp:include page="nav.jsp">
             <jsp:param name="page" value="profile"/>
         </jsp:include>
@@ -67,34 +67,37 @@
                     </div>
                 </c:if>
 
+                <div>
+                    <p>Welcome ${person.getFirstName()}!</p>
 
-                <p>Welcome ${person.getFirstName()}!</p>
+                    <p>Manage Account :</p>
 
-                <p>Manage Account :</p>
+                    <form method="post" action="Servlet?command=LogOut" novalidate>
+                        <p>
+                            <input type="submit" id="logOut" value="Log Out">
+                        </p>
+                    </form>
+                </div>
 
-                <form method="post" action="Servlet?command=LogOut" novalidate>
-                    <p>
-                        <input type="submit" id="logOut" value="Log Out">
-                    </p>
-                </form>
+                <div>
+                    <p>Create Reservation</p>
 
-                <p>Create Reservation</p>
-
-                <form method="post" action="Servlet?command=MakeReservation" novalidate="novalidate">
-                    <!-- novalidate in order to be able to run tests correctly -->
-                    <p><label for="startTime">Start of reservation</label><input type="datetime-local" id="startTime" name="startTime"
-                                                                                 value="${startTimePreviousValue}" required></p>
-                    <p><label for="endTime">End of reservation</label><input type="time" id="endTime"
-                                                                             name="endTime" value="${endTimePreviousValue}"
-                                                                             required value=""></p>
-                    <p><label for="field">Field</label><input type="text" id="field" name="field"
-                                                              value="<c:out value ='${fieldPreviousValue}' />" required></p>
-                    <p><label for="phonenr">Phone Number</label><input type="text" id="phonenr" name="phonenr"
-                                                                value="<c:out value ='${phonenrPreviousValue}' />" required></p>
-                    <p><label for="email">Email</label><input type="email" id="email" name="email"
-                                                                       value="<c:out value ='${emailPreviousValue}' />" required></p>
-                    <p><input type="submit" id="makeReservation" value="Make Reservation"></p>
-                </form>
+                    <form method="post" action="Servlet?command=MakeReservation" novalidate="novalidate">
+                        <!-- novalidate in order to be able to run tests correctly -->
+                        <p><label for="startTime">Start of reservation</label><input type="datetime-local" id="startTime" name="startTime"
+                                                                                     value="${startTimePreviousValue}" required></p>
+                        <p><label for="endTime">End of reservation</label><input type="time" id="endTime"
+                                                                                 name="endTime" value="${endTimePreviousValue}"
+                                                                                 required value=""></p>
+                        <p><label for="field">Field</label><input type="text" id="field" name="field"
+                                                                  value="<c:out value ='${fieldPreviousValue}' />" required></p>
+                        <p><label for="phonenr">Phone Number</label><input type="text" id="phonenr" name="phonenr"
+                                                                           value="<c:out value ='${phonenrPreviousValue}' />" required></p>
+                        <p><label for="email">Email</label><input type="email" id="email" name="email"
+                                                                  value="<c:out value ='${emailPreviousValue}' />" required></p>
+                        <p><input type="submit" id="makeReservation" value="Make Reservation"></p>
+                    </form>
+                </div>
 
             </c:otherwise>
         </c:choose>

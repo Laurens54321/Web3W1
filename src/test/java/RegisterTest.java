@@ -31,19 +31,20 @@ public class RegisterTest {
     }
 
     @Test
-    public void test_Register_AllFieldsFilledInCorrectly_UserIsRegistered() {
+    public void test_Register_AllFieldsFilledInCorrectly_UserIsRegistered() throws InterruptedException {
         String useridRandom = generateRandomUseridInOrderToRunTestMoreThanOnce("jakke");
 
         RegisterPage registerPage = PageFactory.initElements(driver, RegisterPage.class);
         registerPage.setUserid(useridRandom);
-        registerPage.setFirstName("Jan");
+        registerPage.setFirstName("Jans");
         registerPage.setLastName("Janssens");
         registerPage.setEmail("jan.janssens@hotmail.com");
         registerPage.setPassword("A1a&wateenwachtwoordzeg");
-
+        Thread.sleep(20000);
         PersonOverviewPage personOverviewPage = registerPage.submitValid();
 
         assertEquals("Overview", personOverviewPage.getTitle());
+        Thread.sleep(2000);
         assertTrue(personOverviewPage.containsUserWithUserid(useridRandom));
 
     }
@@ -184,7 +185,7 @@ public class RegisterTest {
 
     private String generateRandomUseridInOrderToRunTestMoreThanOnce(String component) {
         int random = (int)(Math.random() * 1000 + 1);
-        return random+component;
+        return component+random;
     }
 
     private void fillOutField(String name,String value) {

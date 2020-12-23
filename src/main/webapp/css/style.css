@@ -7,23 +7,35 @@
 body {
 	font-family: arial,sans-serif;
 	font-size: 90%;
-	color: #303d11;
-	background-color: #303d11;
+	color: #3c3f41;
+	background-color: #3c3f41;
 }
 
 div#container {
-	background-color: #FFF;
+	background-color: #2b2b2b;
+	color: #FFFFFF;
 	margin: auto;
 	margin-top: 10px;
+
 }
 
 footer {
-	background-color: #b99703;
+	background-color: #1c2a5d;
+}
+
+nav{
+	padding: 10px;
+}
+
+header h1{
+	text-align: center;
+	padding-top: 10px;
 }
 
 nav ul {
 	list-style: none;
-	background-color: #b99703;
+	background-color: #1c2a5d;
+	color: #FFFFFF;
 	box-sizing: border-box;
 	margin-bottom: 1em;
 }
@@ -35,16 +47,17 @@ nav ul li {
 	padding: 10px;
 	width: 100%;
 	box-sizing: border-box;
+	text-align: center;
 }
 
 nav ul li a{
-	color: #303d11;
+	color: #FFFFFF;
 	text-decoration: none;
-	display: block;
+	padding: 5px;
 }
 
 nav ul li#actual {
-	background-color: #f3dc04;
+	background-color: #2a418d;
 }
 
 
@@ -52,12 +65,28 @@ h2, main, footer {
 	padding: 15px 10px;
 }
 
-h1 {
-	background-image: url("../images/bannerKlein.png");
-	height: 100px;
-	background-repeat: no-repeat;
-	background-size: cover;
-	position: relative;
+main .index p {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+main div{
+	border: #262626;
+	border-style: ridge;
+	border-radius: 8px;
+	border-width: 2px;
+	padding: 10px;
+	margin: 5px;
+}
+
+div p {
+	font-size: medium;
+}
+
+.members{
+	border: #2b2b2b;
+	border-radius: 16px;
+
 }
 
 h1 span {
@@ -151,6 +180,9 @@ meter[value="4"]::-webkit-meter-optimum-value { background: green; }
     margin-bottom: 1em;
     box-sizing: border-box;
 
+	margin-left: 10px;
+	margin-right: 10px;
+
 }
 
 .message {
@@ -159,10 +191,11 @@ meter[value="4"]::-webkit-meter-optimum-value { background: green; }
 	border: 1px solid #0f4c91;
 	color: #14549f;
 	border-radius: 3px;
-	width: 100%;
 	margin-bottom: 1em;
 	box-sizing: border-box;
 	text-decoration: none;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 
 .message p {
@@ -213,7 +246,7 @@ input[type="text"], input[type="email"], textarea {
     width: 100%;
 }
 input {
-    height: 25px;
+    height: 35px;
 }
 
 #removeAllPersonButton{
@@ -226,8 +259,10 @@ input {
 	div#container {
 	max-width: 1000px;
 	}
+
 	h1 {
-	background-image: url("../images/banner.png");
+		text-align: center;
+		padding: 20px;
 	}
 	
 	nav ul {
@@ -275,6 +310,10 @@ input {
     textarea {
         vertical-align: middle;    
     }
+
+	main p{
+
+	}
 	
 	
 }

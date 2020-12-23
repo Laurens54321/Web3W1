@@ -1,6 +1,5 @@
 package domain.db;
 
-import domain.model.DomainException;
 import domain.model.Person;
 import util.DbConnectionService;
 
@@ -43,7 +42,7 @@ public class PersonDBSQL {
             statementSQL.setString(3, person.getLastName());
             statementSQL.setString(4, person.getEmail());
             statementSQL.setString(5, person.getPasswordHash());
-            statementSQL.setString(6, person.getRole());
+            statementSQL.setString(6, person.getRoleString());
             statementSQL.execute();
             System.out.println("Added person to sql database");
         } catch (SQLException e){

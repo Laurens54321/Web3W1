@@ -34,9 +34,9 @@ public class Servlet extends HttpServlet {
         } catch (NotAuthorizedException e){
             request.setAttribute("errors", "You do not have Access to that page");
             request.getRequestDispatcher("index.jsp").forward(request,response);
-        } catch (ServletException e){
-            request.setAttribute("errors", e.getMessage());
-            System.out.println(e.getMessage());
+        } catch (Exception e){
+            request.setAttribute("errors", e);
+            System.out.println(e);
             destination = "error.jsp";
             request.getRequestDispatcher(destination).forward(request,response);
         }

@@ -9,6 +9,9 @@ import java.util.ArrayList;
 
 public class PersonOverviewPage extends Page {
 
+    @FindBy(id = "Members")
+    WebElement memberTable;
+
     @FindBy(className = "message")
     WebElement signUpLink;
 
@@ -17,11 +20,12 @@ public class PersonOverviewPage extends Page {
         this.driver.get(getPath()+"?command=Overview");
     }
 
-    public boolean containsUserWithUserid(String email) {
-        ArrayList<WebElement> listItems=(ArrayList<WebElement>) this.driver.findElements(By.cssSelector("td"));
+    public boolean containsUserWithUserid(String userid) {
+        ArrayList<WebElement> listItems = (ArrayList<WebElement>) memberTable.findElements(By.className("userid"));
+        System.out.println(listItems.size());
         boolean found=false;
-        for (WebElement listItem:listItems) {
-            if (listItem.getText().contains(email)) {
+        for (WebElement listItem : listItems) {
+            if (listItem.getText().equals(userid)) {
                 found=true;
             }
         }

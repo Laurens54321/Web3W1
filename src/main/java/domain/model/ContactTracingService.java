@@ -5,6 +5,7 @@ import domain.db.PersonDBSQL;
 import domain.db.ReservationDBSQL;
 
 import java.lang.reflect.Array;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -65,23 +66,26 @@ public class ContactTracingService {
 
     public void addReservation(Reservation reservation) { getReservationDb().add(reservation); }
 
-    public ArrayList<Reservation> getInRangeReservationsByUserid(String userid) {
-        ArrayList<CoronaTest> tests = getTestByUserid(userid);
-        if (tests == null || tests.isEmpty()){
-            return null;
-        }
-        else {
-            ArrayList<Reservation> returnList = new ArrayList<>();
-            ArrayList<Reservation> reservations =  reservationDBSQL.getReservationWithUserid(userid);
-            for (Reservation r : reservations) {
-                for (CoronaTest test : tests) {
-                    if (r.getDate().isAfter(test.getDate().minusWeeks(1))){
-                        returnList.add(r);
-                    }
+    public ArrayList<Reservation> getInRangeReservationsByUserid(String userid, LocalDate from, LocalDate until) {
+        ArrayList<Reservation> returnList = new ArrayList<>();
+        ArrayList<Reservation> reservations =  reservationDBSQL.getReservationWithUserid(userid);
+        if (reservations == null) return null;
+        for (Reservation r : reservations) {
+            Boolean select = true;
+            if (from != null){
+                if (r.getDate().isBefore(from)){
+                    select = false;
                 }
             }
-            return returnList;
+            if (until != null){
+                if (r.getDate().isAfter(until)){
+                    select = false;
+                }
+            }
+            if (select) returnList.add(r);
         }
+        return returnList;
+
     }
 
     public ArrayList<Reservation> getReservationsByUserid(String userid) {

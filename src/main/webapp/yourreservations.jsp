@@ -10,14 +10,30 @@
 <meta charset="UTF-8">
 <title>Your Reservation</title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="scripts/contactSorter.js" defer></script>
 </head>
     <body>
         <div id="container">
             <header>
-                <h1><span>XXX</span></h1>
+                <h1>Sportzaal Heverlee</h1>
                 <jsp:include page="nav.jsp">
                     <jsp:param name="page" value="profile"/>
                 </jsp:include>
+
+                <div>
+                    <p>Create Reservation</p>
+
+                    <form method="post" action="Servlet?command=MakeReservation" novalidate="novalidate">
+                        <!-- novalidate in order to be able to run tests correctly -->
+                        <p><label for="startTime">Start of reservation</label><input type="datetime-local" id="startTime" name="startTime"
+                                                                                     value="${startTimePreviousValue}" required></p>
+                        <p><label for="endTime">End of reservation</label><input type="time" id="endTime"
+                                                                                 name="endTime" value="${endTimePreviousValue}"
+                                                                                 required value=""></p>
+                        
+                        <p><input type="submit" id="makeReservation" value="Make Reservation"></p>
+                    </form>
+                </div>
 
                 <c:if test="${not empty errors}">
                     <div class="alert-danger">
@@ -41,7 +57,7 @@
                 <h2>Your Contacts</h2>
             </header>
             <main>
-                <table>
+                <table id="contactsTable">
                     <tr>
                         <th>Date</th>
                         <th>Name</th>

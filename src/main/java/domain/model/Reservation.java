@@ -1,12 +1,13 @@
 package domain.model;
 
+import java.io.InvalidObjectException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
-public class Reservation implements Comparable<Reservation> {
+public class Reservation implements Comparable {
     private String userid;
     private LocalTime startTime;
     private LocalTime endTime;
@@ -150,7 +151,10 @@ public class Reservation implements Comparable<Reservation> {
 
 
     @Override
-    public int compareTo(Reservation that) {
+    public int compareTo(Object o) {
+        if (!o.getClass().equals(this.getClass())) throw new DomainException();
+        Reservation that = (Reservation) o;
+
         if (this.startTime.compareTo(that.startTime) < 0) {
             return -1;
         } else if (this.startTime.compareTo(that.startTime) > 0) {

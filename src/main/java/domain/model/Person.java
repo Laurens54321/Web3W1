@@ -172,7 +172,11 @@ public class Person {
 		}
 	}
 
-	public String getRole(){
+	public Role getRole(){
+		return this.role;
+	}
+
+	public String getRoleString(){
 		return role.toString();
 	}
 
@@ -185,7 +189,7 @@ public class Person {
 
 	@Override
 	public String toString(){
-		return getFirstName() + " " + getLastName() + ", '" + getUserid() + "', " + getEmail();
+		return "Name: " + getFirstName() + " " + getLastName() + ", Userid: " + getUserid() + ", role: " + getRoleString();
 	}
 
 	@Override
