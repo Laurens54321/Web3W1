@@ -1,5 +1,6 @@
 package ui.controller;
 
+import domain.model.CoronaTest;
 import domain.model.NotAuthorizedException;
 import domain.model.Person;
 import ui.util.Authorization;
@@ -8,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class SearchHandler extends RequestHandler {
@@ -16,14 +18,15 @@ public class SearchHandler extends RequestHandler {
         Person.Role[] roles = {Person.Role.user, Person.Role.administrator};
         Authorization.checkrole(request, roles);
 
-        Date date = (Date) request.getAttribute("date");
+        Person p = (Person) request.getSession().getAttribute("person");
+        ArrayList<CoronaTest> tests = getDB().getTestByUserid(p.getUserid());
 
-        if (date == null){
-            request.setAttribute("errors", "Date cannot be empty for search");
-            request.getRequestDispatcher("error.jsp").forward(request,response);
+        if (tests == null || tests.isEmpty()){
+            request.setAttribute("errors", "You have not registered a test yet");
+            request.getRequestDispatcher("search.jsp").forward(request,response);
         }
         else{
-            request.getRequestDispatcher("yourreservations.jsp").forward(request,response);
+            request.getRequestDispatcher("search.jsp").forward(request,response);
         }
     }
 }

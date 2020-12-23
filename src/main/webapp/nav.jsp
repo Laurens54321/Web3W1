@@ -7,10 +7,10 @@
         <c:if test="${not empty person}">
             <li ${param.command == 'RegisterTest' ? "id=actual" : ""}><a href="Servlet?command=Test">Register Test</a></li>
             <li ${param.command == 'YourReservations' ? "id=actual" : ""}><a href="Servlet?command=YourReservations">Your Reservations</a></li>
+            <li ${param.command == 'Search' ? "id=actual" : ""}><a href="Servlet?command=Search">Search</a></li>
             <c:if test="${person.isAdmin()}">
                 <li ${param.command == 'AllReservations' ? "id=actual" : ""}><a href="Servlet?command=AllReservations">All Reservations</a></li>
             </c:if>
         </c:if>
-
     </ul>
 </nav>
