@@ -9,6 +9,7 @@
     <title>Sign Up</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="scripts/validateFormScript.js"></script>
+    <script src="scripts/passwordStrengthBar.js"></script>
 </head>
 <body>
 <div id="container">
@@ -31,12 +32,13 @@
                 </ul>
             </div>
         </c:if>
-        <form name="registerForm" id="signup" onsubmit="return validateRegisterForm()" method="post" action="Servlet?command=Register" novalidate>
+        <form name="registerForm" id="signup" onsubmit="return validateRegisterForm()" method="post"
+              action="Servlet?command=Register" novalidate>
             <label for="userid">User id</label>
             <input type="text" id="userid" name="userid" value="<c:out value ='${useridPreviousValue}'/>">
 
             <label for="firstName">First Name</label>
-            <input type="text" id="firstName" name="firstName" value="<c:out value ='${firstNamePreviousValue}'/>" >
+            <input type="text" id="firstName" name="firstName" value="<c:out value ='${firstNamePreviousValue}'/>">
 
             <label for="lastName">Last Name</label>
             <input type="text" id="lastName" name="lastName" value="<c:out value ='${ lastNamePreviousValue}'/>">
@@ -46,8 +48,8 @@
 
 
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" >
-            <meter max="4" id="password-strength-meter"></meter>
+            <input type="password" id="password" name="password">
+            <meter min="0" max="4" id="password-strength-meter"></meter>
             <p id="password-strength-text"></p>
 
 
@@ -58,34 +60,5 @@
         &copy; Webontwikkeling 3, UC Leuven-Limburg
     </footer>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js">
-    var password = document.getElementById('password');
-    var meter = document.getElementById('password-strength-meter');
-    var text = document.getElementById('password-strength-text');
-
-    var strength = {
-        0: "Worst",
-        1: "Bad",
-        2: "Weak",
-        3: "Good",
-        4: "Strong"
-    }
-
-    password.addEventListener('input', function() {
-        var val = password.value;
-        var result = zxcvbn(val);
-
-        // Update the password strength meter
-        meter.value = result.score;
-
-        // Update the text indicator
-        if (val !== "") {
-            text.innerHTML = "Strength: " + strength[result.score];
-        } else {
-            text.innerHTML = "";
-        }
-    });
-</script>
-
 </body>
 </html>
