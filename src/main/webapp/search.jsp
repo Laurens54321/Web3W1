@@ -29,37 +29,34 @@
                 </ul>
             </div>
         </c:if>
-
-        <c:if test="${not empty messages}">
-            <div class="message">
-                <ul>
-                    <c:forEach items="${messages}" var="message">
-                        <li>${message}</li>
-                    </c:forEach>
-                </ul>
-            </div>
-        </c:if>
         <h2>Search</h2>
     </header>
     <main>
-        <table id="contactsTable">
-            <tr>
-                <th>Date</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Test Result</th>
-            </tr>
-            <c:forEach var="reservation" items="${reservations}">
+        <c:if test="${not empty message}">
+            <div class="message">
+                <p>${message}</p>
+            </div>
+        </c:if>
+        <c:otherwise>
+            <table id="contactsTable">
                 <tr>
-                    <td>${reservation.getDateString()}</td>
-                    <td>${reservation.getUserid()}</td>
-                    <td>${reservation.getEmail()}</td>
-                    <td>${reservation.getPhonenr()}</td>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Test Result</th>
                 </tr>
-            </c:forEach>
+                <c:forEach var="reservation" items="${reservations}">
+                    <tr>
+                        <td>${reservation.getDateString()}</td>
+                        <td>${reservation.getUserid()}</td>
+                        <td>${reservation.getEmail()}</td>
+                        <td>${reservation.getPhonenr()}</td>
+                    </tr>
+                </c:forEach>
 
-        </table>
+            </table>
+        </c:otherwise>
     </main>
     <footer>&copy; Webontwikkeling 3, UC Leuven-Limburg</footer>
 </div>

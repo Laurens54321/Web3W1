@@ -22,16 +22,15 @@ public class SearchHandler extends RequestHandler {
 
         Person p = (Person) request.getSession().getAttribute("person");
         CoronaTest test = getDB().getLatestTestByUserid(p.getUserid());
+
+        if (test == null) request.setAttribute("message", "You have not registered a test yet");
         ArrayList<Reservation> reservations = getDB().getInRangeReservationsByUserid(p.getUserid(), test.getDate(), LocalDate.now());
 
-        if (reservations == null || reservations.isEmpty()){
-            request.setAttribute("errors", "You have not registered a test yet");
-            request.getRequestDispatcher("search.jsp").forward(request,response);
-        }
+        if (reservations == null || reservations.isEmpty()) request.setAttribute("message", "No reservations were found since your last positive test");
         else{
-            request.setAttribute("message", "Search will show you your contacts since your last positive test ");
+            request.setAttribute("message", "Search will show you the reservations since your last positive test ");
             request.setAttribute("reservations", reservations);
-            request.getRequestDispatcher("search.jsp").forward(request,response);
         }
+        request.getRequestDispatcher("search.jsp").forward(request,response);
     }
 }
