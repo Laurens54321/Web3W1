@@ -29,9 +29,8 @@ public class CoronaTest {
 
     public void setDateString(String date){
         if (date.isEmpty() || date == null) throw new DbException("Test date cannot be empty");
-        this.date = LocalDate.parse(date);
         try{
-
+            this.date = LocalDate.parse(date);
         } catch (Exception e){
             throw new DbException("Test date string was unable to be parsed");
         }

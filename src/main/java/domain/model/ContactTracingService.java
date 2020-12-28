@@ -107,5 +107,6 @@ public class ContactTracingService {
             if (returntest == null || returntest.getDate().isBefore(test.getDate())) returntest = test;
         }
         return returntest;
+
     }
 }

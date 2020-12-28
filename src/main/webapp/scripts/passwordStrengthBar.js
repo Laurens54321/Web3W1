@@ -1,48 +1,53 @@
-var password = document.getElementById("password");
-password.addEventListener('keyup', function() {
+window.addEventListener("load", initPage, false);
 
-    var pwd = password.value
 
-    // Reset if password length is zero
-    if (pwd.length === 0) {
-        document.getElementById("progresslabel").innerHTML = "";
-        document.getElementById("progress").value = "0";
-        return;
+
+var strength = {
+    0: "Worst",
+    1: "Bad",
+    2: "Weak",
+    3: "Good",
+    4: "Strong"
+}
+
+function initPage() {
+    document.getElementById('password').addEventListener("input", checkPassword, false);
+}
+
+function checkPassword(){
+    var password = document.getElementById('password');
+    var meter = document.getElementById('password-strength-meter');
+    var text = document.getElementById('password-strength-text');
+
+    let result = strengthChecker(password.value);
+
+    // Update the password strength meter
+    meter.value = result;
+
+    // Update the text indicator
+    if (result !== 0) {
+        text.innerHTML = "Strength: " + strength[result];
+    } else {
+        text.innerHTML = "";
     }
+}
 
-    // Check progress
-    var prog = [/[$@$!%*#?&]/, /[A-Z]/, /[0-9]/, /[a-z]/]
-        .reduce((memo, test) => memo + test.test(pwd), 0);
-
-    // Length must be at least 8 chars
-    if(prog > 2 && pwd.length > 7){
-        prog++;
+function strengthChecker(password){
+    if (!password){
+        return 0;
     }
-
-    // Display it
-    var progress = "";
-    var strength = "";
-    switch (prog) {
-        case 0:
-        case 1:
-        case 2:
-            strength = "25%";
-            progress = "25";
-            break;
-        case 3:
-            strength = "50%";
-            progress = "50";
-            break;
-        case 4:
-            strength = "75%";
-            progress = "75";
-            break;
-        case 5:
-            strength = "100% - Password strength is good";
-            progress = "100";
-            break;
+    var score = 0
+    if (password.length >= 8){
+        score += 1
     }
-    document.getElementById("progresslabel").innerHTML = strength;
-    document.getElementById("progress").value = progress;
-
-});
+    if (password.match("[A-Z]")){
+        score += 1
+    }
+    if (password.match("[0-9]")){
+        score += 1
+    }
+    if (password.match("[@$!%*#?&]")){
+        score += 1
+    }
+    return score
+}

@@ -19,33 +19,26 @@ public class MakeReservationHandler extends RequestHandler{
         Authorization.checkrole(request, roles);
 
         ArrayList<String> errors = new ArrayList();
+        Person p = (Person) request.getSession().getAttribute("person");
+        Reservation r = new Reservation(p);
+        setstartTime(r, request, errors);
+        setendTime(r, request, errors);
+        setField(r, request, errors);
+        setPhonenr(r, request, errors);
+        setEmail(r, request, errors);
 
-        Person p = (Person) request.getAttribute("person");
-        if (p == null) throw new NotAuthorizedException();
-        else{
-            Reservation r = new Reservation(p);
-            setstartTime(r, request, errors);
-            setendTime(r, request, errors);
-            setField(r, request, errors);
-            setPhonenr(r, request, errors);
-            setEmail(r, request, errors);
-
-            System.out.println("Errors so far after processing fields:\n" + errors);
-            if (errors.size() > 0){
-                request.setAttribute("errors", errors);
-                request.getRequestDispatcher("Servlet?command=Profile").forward(request,response);
-            }
-            try{
-                DB.addReservation(r);
-            } catch (Exception e){
-                errors.add(e.getMessage());
-                request.setAttribute("errors", errors);
-                request.getRequestDispatcher("Servlet?command=Profile").forward(request,response);
-            }
-
-            System.out.println(errors);
+        System.out.println("Errors so far after processing fields:\n" + errors);
+        if (errors.size() > 0){
+            request.setAttribute("errors", errors);
+            request.getRequestDispatcher("Servlet?command=Profile").forward(request,response);
         }
-
+        try{
+            DB.addReservation(r);
+        } catch (Exception e){
+            errors.add(e.getMessage());
+            request.setAttribute("errors", errors);
+            request.getRequestDispatcher("Servlet?command=Profile").forward(request,response);
+        }
 
         request.getRequestDispatcher("Servlet?command=Overview").forward(request,response);
     }

@@ -4,7 +4,6 @@ import domain.model.CoronaTest;
 import domain.model.NotAuthorizedException;
 import domain.model.Person;
 import domain.model.Reservation;
-import net.bytebuddy.asm.Advice;
 import ui.util.Authorization;
 
 import javax.servlet.ServletException;
