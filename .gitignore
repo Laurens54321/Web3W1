@@ -1,2 +1,4 @@
 /src/main/java/util/Secret.java
 /Project.iml
+/target
+/.idea
