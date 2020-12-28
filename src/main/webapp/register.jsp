@@ -23,7 +23,7 @@
         </h2>
     </header>
     <main>
-        <c:if test="${errors!=null}">
+        <c:if test="${not empty errors}">
             <div class="alert-danger">
                 <ul>
                     <c:forEach items="${errors}" var="error">

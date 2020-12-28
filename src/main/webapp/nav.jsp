@@ -5,7 +5,7 @@
         <li ${param.command == 'Overview' ? "id=actual" : ""}><a href="Servlet?command=Overview">Overview</a></li>
         <li ${param.command == 'Profile' ? "id=actual" : ""}><a href="Servlet?command=Profile">Profile</a></li>
         <c:if test="${not empty person}">
-            <li ${param.command == 'RegisterTest' ? "id=actual" : ""}><a href="Servlet?command=Test">Register Test</a></li>
+            <li ${param.command == 'Test' ? "id=actual" : ""}><a href="Servlet?command=Test">Register Test</a></li>
             <li ${param.command == 'YourReservations' ? "id=actual" : ""}><a href="Servlet?command=YourReservations">Your Reservations</a></li>
             <li ${param.command == 'Search' ? "id=actual" : ""}><a href="Servlet?command=Search">Search</a></li>
             <c:if test="${person.isAdmin()}">

@@ -47,7 +47,7 @@ public class TestHandler extends RequestHandler {
             }
         }
         else{
-            response.sendRedirect("registertest.jsp");
+            request.getRequestDispatcher("registertest.jsp").forward(request, response);
         }
     }
 

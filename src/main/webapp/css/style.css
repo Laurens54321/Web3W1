@@ -27,6 +27,12 @@ footer {
 
 nav{
 	padding: 10px;
+	background-color: #1c2a5d;
+	color: #FFFFFF;
+	box-sizing: border-box;
+	margin-bottom: 1em;
+	border-radius: 8px;
+
 }
 
 header h1{
@@ -36,20 +42,27 @@ header h1{
 
 nav ul {
 	list-style: none;
-	background-color: #1c2a5d;
-	color: #FFFFFF;
-	box-sizing: border-box;
-	margin-bottom: 1em;
+
 }
 
 nav ul li {
-	height: 2em;
+
+}
+
+
+
+nav ul li {
 	font-size: 150%;
 	font-weight: bold;
-	padding: 10px;
+	padding: 5px;
 	width: 100%;
 	box-sizing: border-box;
 	text-align: center;
+	border-bottom: 1px solid #000000;
+}
+
+nav ul li:last-child {
+	border: none;
 }
 
 nav ul li a{
@@ -213,11 +226,47 @@ meter[value="4"]::-webkit-meter-optimum-value { background: green; }
 	border-radius: 3px;
 	box-sizing: border-box;
 	text-decoration: none;
-	margin: 0px 15px;
+	margin: 10px 15px;
 }
 
 .message p {
 	text-decoration: none;
+}
+
+.yourReservationsBar{
+	border: none;
+}
+
+.yourReservationsBar form{
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0;
+}
+
+.yourReservationsBar form p {
+
+}
+
+.yourReservationsBar form label{
+	display: inline;
+	margin: 5px;
+}
+
+.yourReservationsBar form input{
+	display: inline;
+	margin: 2px 5px;
+}
+
+.datepicker {
+	border: 1px solid #c4c4c4;
+	border-radius: 5px;
+	background-color: #fff;
+	padding: 3px 5px;
+	box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
+
+	display: inline;
+	margin: 5px;
+	width: 9rem;
 }
 
 .alert-danger ul {
@@ -250,15 +299,6 @@ div#container {
 	padding: 0.6em;
 }
 
-nav ul li {
-	display: block;
-	border-bottom: 1px solid #303d11;
-}
-
-nav ul li:first-child {
-	border-top: 1px solid #303d11;
-}
-
 label,input,textarea {
 	display: block;
 }
@@ -267,6 +307,10 @@ input[type="text"], input[type="email"], input[type="password"], textarea {
 }
 input {
 	height: 35px;
+}
+
+#password-strength-text{
+	width: 100%;
 }
 
 #removeAllPersonButton{
@@ -301,9 +345,6 @@ input {
 		margin: auto;
 		border: none;
 	}
-	nav ul li:first-child {
-		border: none;
-	}
 	nav ul li a {
 		text-align: center;
 	}
@@ -336,11 +377,9 @@ input {
 
 	}
 
-	main p{
-
+	nav ul li {
+		border: none;
 	}
-
-
 }
 
 /*

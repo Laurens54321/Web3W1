@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class YourReservationsHandler extends RequestHandler{
 
-    DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Override
     public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
@@ -25,31 +25,33 @@ public class YourReservationsHandler extends RequestHandler{
         LocalDate until = null;
 
         try{
-            String fromString = request.getParameter("from");
-            if (fromString != null && !fromString.isEmpty()){
-                from = LocalDate.parse(fromString, formatter2);
-                request.setAttribute("fromPreviousValue", fromString);
-            }
-            String untilString = request.getParameter("until");
-            if (untilString != null && !untilString.isEmpty()){
-                until = LocalDate.parse(untilString, formatter2);
-                request.setAttribute("untilPreviousValue", untilString);
+            if (request.getParameter("ClearFilter") == null){
+                String fromString = request.getParameter("from");
+                if (fromString != null && !fromString.isEmpty()){
+                    from = LocalDate.parse(fromString, formatter);
+                    request.setAttribute("fromPreviousValue", fromString);
+                }
+                String untilString = request.getParameter("until");
+                if (untilString != null && !untilString.isEmpty()){
+                    until = LocalDate.parse(untilString, formatter);
+                    request.setAttribute("untilPreviousValue", untilString);
+                }
             }
         } catch (Exception e){
             request.setAttribute("messages", "Error while parsing selected range");
             request.getRequestDispatcher("yourreservations.jsp").forward(request,response);
+            return;
         }
 
         Person user = (Person) request.getSession().getAttribute("person");
         ArrayList<Reservation> reservations = getDB().getInRangeReservationsByUserid(user.getUserid(), from, until);
 
         if (reservations == null || reservations.isEmpty()){
-            request.setAttribute("messages", "You have no contacts");
-            request.getRequestDispatcher("yourreservations.jsp").forward(request,response);
+            request.setAttribute("messages", "No reservations were found in this range");
         }
         else{
             request.setAttribute("reservations", reservations);
-            request.getRequestDispatcher("yourreservations.jsp").forward(request,response);
         }
+        request.getRequestDispatcher("yourreservations.jsp").forward(request,response);
     }
 }

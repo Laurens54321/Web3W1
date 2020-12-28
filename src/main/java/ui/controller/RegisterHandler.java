@@ -40,12 +40,16 @@ public class RegisterHandler extends RequestHandler {
                     DB.addPerson(p);
                     request.getSession().setAttribute("person", p);
                     destination = "Servlet?command=Overview";
+                    response.sendRedirect(destination);
                 } catch(DbException e){
-                    request.setAttribute("errors", e.getMessage());
+                    System.out.println(e.getMessage());
+                    errors.add(e.getMessage());
+                    request.setAttribute("errors", errors);
                     destination = "register.jsp";
+                    request.getRequestDispatcher(destination).forward(request,response);
                 }
             }
-            response.sendRedirect(destination);
+
         }
 
         else{

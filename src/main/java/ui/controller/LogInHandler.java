@@ -37,6 +37,7 @@ public class LogInHandler extends RequestHandler {
             request.setAttribute("errors", "Username not found");
         }
 
-        request.getRequestDispatcher("profile.jsp").forward(request,response);
+        //request.getRequestDispatcher("profile.jsp").forward(request,response);
+        response.sendRedirect("profile.jsp");
     }
 }

@@ -51,7 +51,6 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone</th>
-                    <th>Test Result</th>
                 </tr>
 
                 <c:forEach var="reservation" items="${reservations}">

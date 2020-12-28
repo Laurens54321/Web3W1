@@ -40,7 +40,8 @@ public class MakeReservationHandler extends RequestHandler{
             request.getRequestDispatcher("Servlet?command=Profile").forward(request,response);
         }
 
-        request.getRequestDispatcher("Servlet?command=Overview").forward(request,response);
+        //request.getRequestDispatcher("Servlet?command=Overview").forward(request,response);
+        response.sendRedirect("Servlet?command=Overview");
     }
 
 
