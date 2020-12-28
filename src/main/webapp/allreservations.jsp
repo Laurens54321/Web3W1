@@ -44,24 +44,26 @@
         <h2>All Reservations</h2>
     </header>
     <main>
-        <table>
-            <tr>
-                <th>Date</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Test Result</th>
-            </tr>
+        <div>
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Test Result</th>
+                </tr>
 
-            <c:forEach var="reservation" items="${reservations}">
-            <tr>
-                <td>${reservation.getDateString()}</td>
-                <td>${reservation.getUserid()}</td>
-                <td>${reservation.getEmail()}</td>
-                <td>${reservation.getPhonenr()}</td>
-            </tr>
-            </c:forEach>
-        </table>
+                <c:forEach var="reservation" items="${reservations}">
+                    <tr>
+                        <td>${reservation.getDateString()}</td>
+                        <td>${reservation.getUserid()}</td>
+                        <td>${reservation.getEmail()}</td>
+                        <td>${reservation.getPhonenr()}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
     </main>
     <footer>&copy; Webontwikkeling 3, UC Leuven-Limburg</footer>
 </div>

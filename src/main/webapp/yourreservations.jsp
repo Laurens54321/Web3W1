@@ -20,21 +20,6 @@
                     <jsp:param name="page" value="profile"/>
                 </jsp:include>
 
-                <div>
-                    <p>Create Reservation</p>
-
-                    <form method="post" action="Servlet?command=MakeReservation" novalidate="novalidate">
-                        <!-- novalidate in order to be able to run tests correctly -->
-                        <p><label for="startTime">Start of reservation</label><input type="datetime-local" id="startTime" name="startTime"
-                                                                                     value="${startTimePreviousValue}" required></p>
-                        <p><label for="endTime">End of reservation</label><input type="time" id="endTime"
-                                                                                 name="endTime" value="${endTimePreviousValue}"
-                                                                                 required value=""></p>
-                        
-                        <p><input type="submit" id="makeReservation" value="Make Reservation"></p>
-                    </form>
-                </div>
-
                 <c:if test="${not empty errors}">
                     <div class="alert-danger">
                         <ul>
@@ -57,24 +42,31 @@
                 <h2>Your Contacts</h2>
             </header>
             <main>
-                <table id="contactsTable">
-                    <tr>
-                        <th>Date</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Test Result</th>
-                    </tr>
-                    <c:forEach var="reservation" items="${reservations}">
+                <div>
+                    <form action="#">
+                        <p><label for="from">Start of reservation</label><input type="datetime-local" id="from" name="from"
+                                                                                     value="${fromPreviousValue}"></p>
+                        <p><label for="until">Start of reservation</label><input type="datetime-local" id="until" name="until"
+                                                                                value="${untilPreviousValue}"></p>
+                    </form>
+                    <table id="contactsTable">
                         <tr>
-                            <td>${reservation.getDateString()}</td>
-                            <td>${reservation.getUserid()}</td>
-                            <td>${reservation.getEmail()}</td>
-                            <td>${reservation.getPhonenr()}</td>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Test Result</th>
                         </tr>
-                    </c:forEach>
-
-                </table>
+                        <c:forEach var="reservation" items="${reservations}">
+                            <tr>
+                                <td>${reservation.getDateString()}</td>
+                                <td>${reservation.getUserid()}</td>
+                                <td>${reservation.getEmail()}</td>
+                                <td>${reservation.getPhonenr()}</td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </div>
             </main>
             <footer>&copy; Webontwikkeling 3, UC Leuven-Limburg</footer>
         </div>

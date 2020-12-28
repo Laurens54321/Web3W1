@@ -100,5 +100,12 @@ public class ContactTracingService {
 
     public void addTest(CoronaTest test) { coronaTestDBSQL.add(test); }
 
-    public ArrayList<CoronaTest> getTestByUserid(String userid) { return coronaTestDBSQL.getTestByUserid(userid); }
+    public CoronaTest getLatestTestByUserid(String userid) {
+        ArrayList<CoronaTest> tests = coronaTestDBSQL.getTestByUserid(userid);
+        CoronaTest returntest = null;
+        for (CoronaTest test : tests) {
+            if (returntest == null || returntest.getDate().isBefore(test.getDate())) returntest = test;
+        }
+        return returntest;
+    }
 }

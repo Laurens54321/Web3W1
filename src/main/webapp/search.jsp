@@ -20,6 +20,10 @@
             <jsp:param name="page" value="profile"/>
         </jsp:include>
 
+        <div class="message">
+            <p>This page shows all reservations since your last registered test</p>
+        </div>
+
         <c:if test="${not empty errors}">
             <div class="alert-danger">
                 <ul>
@@ -29,37 +33,28 @@
                 </ul>
             </div>
         </c:if>
-
-        <c:if test="${not empty messages}">
-            <div class="message">
-                <ul>
-                    <c:forEach items="${messages}" var="message">
-                        <li>${message}</li>
-                    </c:forEach>
-                </ul>
-            </div>
-        </c:if>
         <h2>Search</h2>
     </header>
     <main>
-        <table id="contactsTable">
-            <tr>
-                <th>Date</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Test Result</th>
-            </tr>
-            <c:forEach var="reservation" items="${reservations}">
+        <div>
+            <table id="contactsTable">
                 <tr>
-                    <td>${reservation.getDateString()}</td>
-                    <td>${reservation.getUserid()}</td>
-                    <td>${reservation.getEmail()}</td>
-                    <td>${reservation.getPhonenr()}</td>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Test Result</th>
                 </tr>
-            </c:forEach>
-
-        </table>
+                <c:forEach var="reservation" items="${reservations}">
+                    <tr>
+                        <td>${reservation.getDateString()}</td>
+                        <td>${reservation.getUserid()}</td>
+                        <td>${reservation.getEmail()}</td>
+                        <td>${reservation.getPhonenr()}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
     </main>
     <footer>&copy; Webontwikkeling 3, UC Leuven-Limburg</footer>
 </div>

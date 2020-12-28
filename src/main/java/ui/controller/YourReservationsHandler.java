@@ -26,9 +26,15 @@ public class YourReservationsHandler extends RequestHandler{
 
         try{
             String fromString = request.getParameter("from");
-            if (fromString != null && !fromString.isEmpty()) from = LocalDate.parse(fromString, formatter2);
+            if (fromString != null && !fromString.isEmpty()){
+                from = LocalDate.parse(fromString, formatter2);
+                request.setAttribute("fromPreviousValue", fromString);
+            }
             String untilString = request.getParameter("until");
-            if (untilString != null && !untilString.isEmpty()) until = LocalDate.parse(untilString, formatter2);
+            if (untilString != null && !untilString.isEmpty()){
+                until = LocalDate.parse(untilString, formatter2);
+                request.setAttribute("untilPreviousValue", untilString);
+            }
         } catch (Exception e){
             request.setAttribute("messages", "Error while parsing selected range");
             request.getRequestDispatcher("yourreservations.jsp").forward(request,response);
@@ -42,8 +48,6 @@ public class YourReservationsHandler extends RequestHandler{
             request.getRequestDispatcher("yourreservations.jsp").forward(request,response);
         }
         else{
-
-
             request.setAttribute("reservations", reservations);
             request.getRequestDispatcher("yourreservations.jsp").forward(request,response);
         }
