@@ -1,0 +1,36 @@
+USERS:
+    USERID: admin, PASSWORD: t, roles: USER/ADMIN
+    USERID: user, PASSWORD: t, roles: USER
+
+
+Ik heb contact vervangen met reservation in context van een sporthal.
+Alles zou hetzelfde uitgewerkt zijn maar met reservation ipv contact.
+
+Ik heb hieronder de belangrijkste Userstories opnieuw geschreven met mijn kleine aanpassingen.
+
+
+Story W06 Add reservation
+
+As a logged in user
+I want to register a reservation
+So that people who were present when I was can be contacted when I test positive for COVID
+
+Acceptance Criteria
+At the bottom of the profile page there is a form to register a new reservation under my name
+A user needs to enter his/her first name, last name, date, hour , field which they want to hire, phone nr and email address.
+All fields are mandatory
+If a mandatory field is not filled in or a field contains invalid information, the form is not sent (client side validation). For security reasons there is also server side validation. All correct fields stay filled in.
+After the form is submitted, the profile page is shown again. The reservation should be added to the my reservations page.
+
+
+Story W08
+
+As a logged in user
+I want to be able to search for all the reservations that came after me if I tested positive for Covid so I can warn them to go into quarantine.
+
+Acceptance Criteria
+From the homepage, a logged-in user should be able to navigate to the search page
+When on the search page, the logged-in user sees all the reservations that have visited since the positive covid test. Each reservation is given by date, name, email and phone nr. If there are no reservations or there are no registered positive tests, an appropriate message is given.
+
+
+
