@@ -1,6 +1,7 @@
 package ui.controller;
 
 import domain.db.DbException;
+import domain.model.DomainException;
 import domain.model.NotAuthorizedException;
 import domain.model.Person;
 import domain.model.Reservation;
@@ -30,7 +31,7 @@ public class MakeReservationHandler extends RequestHandler{
         System.out.println("Errors so far after processing fields:\n" + errors);
         if (errors.size() > 0){
             request.setAttribute("errors", errors);
-            request.getRequestDispatcher("Servlet?command=Profile").forward(request,response);
+            return "Servlet?command=Profile";
         }
         try{
             DB.addReservation(r);
@@ -49,7 +50,7 @@ public class MakeReservationHandler extends RequestHandler{
             String startTime = request.getParameter("startTime");
             request.setAttribute("startTimePreviousValue", startTime);
             r.setStartTimeString(startTime);
-        } catch (DbException exc){
+        } catch (IllegalArgumentException exc){
             errors.add(exc.getMessage());
         }
     }
@@ -59,7 +60,7 @@ public class MakeReservationHandler extends RequestHandler{
             String endTime = request.getParameter("endTime");
             request.setAttribute("endTimePreviousValue", endTime);
             r.setEndTimeString(endTime);
-        } catch (DbException exc){
+        } catch (IllegalArgumentException exc){
             errors.add(exc.getMessage());
         }
     }
@@ -71,7 +72,7 @@ public class MakeReservationHandler extends RequestHandler{
             request.setAttribute("fieldPreviousValue", field);
             r.setField(field);
 
-        } catch (DbException exc){
+        } catch (IllegalArgumentException exc){
             errors.add(exc.getMessage());
         }
     }
@@ -81,7 +82,7 @@ public class MakeReservationHandler extends RequestHandler{
         try{
             r.setPhonenr(phonenr);
             request.setAttribute("phonenrPreviousValue", phonenr);
-        } catch(DbException e){
+        } catch(IllegalArgumentException e){
             errors.add(e.getMessage());
         }
 
@@ -92,7 +93,7 @@ public class MakeReservationHandler extends RequestHandler{
         try{
             r.setEmail(email);
             request.setAttribute("emailPreviousValue", email);
-        } catch(DbException e){
+        } catch(IllegalArgumentException e){
             errors.add(e.getMessage());
         }
 

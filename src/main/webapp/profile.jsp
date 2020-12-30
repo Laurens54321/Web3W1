@@ -89,8 +89,8 @@
                 <div>
                     <p>Create Reservation</p>
 
-                    <form method="post" action="Servlet?command=MakeReservation" novalidate="novalidate">
-                        <!-- novalidate in order to be able to run tests correctly -->
+                    <form name="reservationForm" method="post" onsubmit="return validateReservationForm()"
+                          action="Servlet?command=MakeReservation" novalidate>
                         <p><label for="startTime">Start of reservation</label><input type="datetime-local" id="startTime" name="startTime"
                                                                                      value="${startTimePreviousValue}" required></p>
                         <p><label for="endTime">End of reservation</label><input type="time" id="endTime"

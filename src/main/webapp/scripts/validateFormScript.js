@@ -63,11 +63,64 @@ function validateRegisterForm(){
         errors.push("No password given");
         form["password"].value = "";
         form["password"].className = "has-error";
+    } let EMAIL_PATTERN = new RegExp("^.{8,}$");
+    if (!password.match(EMAIL_PATTERN)) {
+        errors.push("Email is not valid");
+        form["password"].value = "";
+        form["password"].className = "form-group has-error";
     } else form["password"].className = "form-group has-success";
 
 
     if (errors.length > 0) {
         createErrorMessage(document.getElementsByTagName("form")[0], errors);
+        return false;
+    } else return true;
+}
+
+function getmydik(){
+    form = document.forms["reservationForm"];
+    startTime = form["startTime"].value;
+    console.log(startTime);
+}
+
+function validateReservationForm(){
+    let form, startTime, endTime, field, phonenr, email, errors;
+    errors = [];
+    form = document.forms["reservationForm"];
+    startTime = form["startTime"].value;
+    endTime = form["endTime"].value;
+    field = form["field"].value;
+    phonenr = form["phonenr"].value;
+    email = form["email"].value;
+
+    if (startTime.trim() === "") {
+        errors.push("No startTime given");
+        form["startTime"].value = "";
+        form["startTime"].className = "form-group has-error";
+    } else form["startTime"].className = "form-group has-success";
+    if (endTime.trim() === "") {
+        errors.push("No endTime given");
+        form["endTime"].value = "";
+        form["endTime"].className = "form-group has-error";
+    } else form["endTime"].className = "form-group has-success";
+    if (field.trim() === "") {
+        errors.push("No field given");
+        form["field"].value = "";
+        form["field"].className = "form-group has-error";
+    } else form["userid"].className = "form-group has-success";
+    if (phonenr.trim() === "") {
+        errors.push("No phonenr given");
+        form["phonenr"].value = "";
+        form["phonenr"].className = "form-group has-error";
+    } else form["phonenr"].className = "form-group has-success";
+    if (email.trim() === "") {
+        errors.push("No email given");
+        form["email"].value = "";
+        form["email"].className = "form-group has-error";
+    } else form["email"].className = "form-group has-success";
+
+    if (errors.length > 0) {
+        createErrorMessage(document.getElementsByTagName("form")[1], errors);
         return false;
     } else return true;
 }

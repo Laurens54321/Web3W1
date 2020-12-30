@@ -23,9 +23,10 @@ public class LogInHandler extends RequestHandler {
 
         if (person == null){
             request.setAttribute("errors", "Username not found");
+            System.out.println("Login attempt failed, incorrect username");
         } else if (person != null && !password.isEmpty()){
             loginAccept = person.isCorrectPassword(password);
-            System.out.println("Logged in as " + person.toString() );
+            System.out.println("Logged in as " + person.toString());
 
             if (loginAccept){
                 request.getSession().setAttribute("person", person);
@@ -33,6 +34,7 @@ public class LogInHandler extends RequestHandler {
                 return "RedirectServlet?command=Profile";
             } else {
                 request.setAttribute("errors", "Password Incorrect");
+                System.out.println("Login attempt failed, incorrect password!");
             }
         }
         return "profile.jsp";

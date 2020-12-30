@@ -1,11 +1,9 @@
 package domain.model;
 
-import java.io.InvalidObjectException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 
 public class Reservation implements Comparable {
     private String userid;
@@ -16,9 +14,7 @@ public class Reservation implements Comparable {
     private String phonenr;
     private String email;
 
-
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM HH:mm:ss");
-    DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 
     public Reservation(LocalTime startTime, LocalTime endTime, String field, Person attendee, LocalDate date) {
         setUserid(String.valueOf(Math.random()*100000));
@@ -60,19 +56,19 @@ public class Reservation implements Comparable {
     }
 
     public void setStartTime(LocalTime startTime) {
-        if (startTime == null) throw new DomainException("Reservation must have an start date.");
+        if (startTime == null) throw new IllegalArgumentException("Reservation must have an start date.");
         this.startTime = startTime;
     }
 
     public void setStartTimeString(String startTimeString){
 
-        if (startTimeString == null || startTimeString.isEmpty()) throw new DomainException("Reservation must have an start date.");
+        if (startTimeString == null || startTimeString.isEmpty()) throw new IllegalArgumentException("Reservation must have an start date.");
 
         try{
-            this.date = LocalDate.parse(startTimeString, formatter2);
-            this.startTime = LocalTime.parse(startTimeString, formatter2);
+            this.date = LocalDate.parse(startTimeString, formatter);
+            this.startTime = LocalTime.parse(startTimeString, formatter);
         } catch (Exception e){
-            throw new DomainException("Wrong startTime format:\n" + e.getMessage());
+            throw new IllegalArgumentException("Wrong startTime format:\n" + e.getMessage());
         }
     }
 
@@ -84,9 +80,9 @@ public class Reservation implements Comparable {
     }
 
     public void setEndTime(LocalTime endTime) {
-        if (endTime == null) throw new DomainException("Reservation must have an end date.");
+        if (endTime == null) throw new IllegalArgumentException("Reservation must have an end date.");
         if (startTime != null) {
-            if (endTime.isBefore(startTime)) throw new DomainException("End date must be after start date");
+            if (endTime.isBefore(startTime)) throw new IllegalArgumentException("End date must be after start date");
         }
         this.endTime = endTime;
     }
@@ -94,20 +90,20 @@ public class Reservation implements Comparable {
     public void setEndTimeString(String endTimeString){
         LocalTime endTime;
 
-        if (endTimeString == null || endTimeString.isEmpty()) throw new DomainException("Reservation must have an end date.");
+        if (endTimeString == null || endTimeString.isEmpty()) throw new IllegalArgumentException("Reservation must have an end date.");
 
         try{
             endTime = LocalTime.parse(endTimeString);
             setEndTime(endTime);
         } catch (DateTimeParseException e){
-            throw new DomainException("Wrong endTime format");
+            throw new IllegalArgumentException("Wrong endTime format");
         }
     }
 
     public String getField() { return field; }
 
     public void setField(String field) {
-        if (field == null || field.isEmpty()) throw new DomainException("Reservation must have a field");
+        if (field == null || field.isEmpty()) throw new IllegalArgumentException("Reservation must have a field");
         else this.field = field;
     }
 
@@ -152,7 +148,7 @@ public class Reservation implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        if (!o.getClass().equals(this.getClass())) throw new DomainException();
+        if (!o.getClass().equals(this.getClass())) throw new IllegalArgumentException();
         Reservation that = (Reservation) o;
 
         if (this.startTime.compareTo(that.startTime) < 0) {

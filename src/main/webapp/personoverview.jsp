@@ -21,6 +21,22 @@
                 <h2>User Overview</h2>
             </header>
 
+            <c:if test="${not empty message}">
+                <div class="message">
+                    <p>${message}</p>
+                </div>
+            </c:if>
+
+            <c:if test="${not empty errors}">
+                <div class="alert-danger">
+                    <ul>
+                        <c:forEach items="${errors}" var="error">
+                            <li>${error}</li>
+                        </c:forEach>
+                    </ul>
+                </div>
+            </c:if>
+
             <c:if test="${person == null}">
                 <div class="message">
                     <p>Not a user? <a href="Servlet?command=Register">Sign Up</a></p>

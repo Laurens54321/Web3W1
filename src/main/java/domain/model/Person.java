@@ -13,7 +13,7 @@ public class Person {
 	private String passwordHash;
 	private String firstName;
 	private String lastName;
-	private Role role = guest;
+	private Role role = user;
 
 	public enum Role{
 		guest,
@@ -101,8 +101,11 @@ public class Person {
 	}
 
 	public void setPasswordString(String password) throws IllegalArgumentException {
-		if(password == null || password.isEmpty()){
+		if (password == null || password.isEmpty()){
 			throw new IllegalArgumentException("No password given");
+		}
+		if (password.length() < 7){
+			throw new IllegalArgumentException("Password must be at least 8 characters long");
 		}
 
 		char[] ch = null;

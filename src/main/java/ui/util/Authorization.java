@@ -22,6 +22,7 @@ public class Authorization {
             }
         }
         if (!authorized){
+            System.out.println("Unauthorized page requested");
             throw new NotAuthorizedException();
         }
     }

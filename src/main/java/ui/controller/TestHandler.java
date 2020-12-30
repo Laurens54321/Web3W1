@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import domain.model.*;
@@ -48,6 +49,7 @@ public class TestHandler extends RequestHandler {
             }
         }
         else{
+            request.setAttribute("datePreviousValue", LocalDate.now());
             return "registertest.jsp";
         }
     }
