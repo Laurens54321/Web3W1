@@ -16,6 +16,14 @@ public class RemoveAllPersonsHandler extends RequestHandler{
         Authorization.checkrole(request, roles);
 
         getDB().deleteAllPersons();
+        Person p = new Person("admin", "admin@ucll.be", "passwordHash", "ad", "min");
+        p.setPasswordString("t");
+        getDB().addPerson(p);
+
+        Person p2 = new Person("user", "user@ucll.be", "passwordHash", "Hazel", "Slag");
+        p.setPasswordString("t");
+        getDB().addPerson(p2);
+
         request.getSession().removeAttribute("person");
         request.getSession().setAttribute("nextMessage", "All persons were removed from the database");
         return "RedirectServlet?command=Overview";

@@ -23,6 +23,7 @@ public class LogInHandler extends RequestHandler {
 
         if (person == null){
             request.setAttribute("errors", "Username not found");
+            //IRL is dit niet veilig om een error te tonen dat de userid bestaat maar swat
             System.out.println("Login attempt failed, incorrect username");
         } else if (person != null && !password.isEmpty()){
             loginAccept = person.isCorrectPassword(password);
@@ -33,6 +34,7 @@ public class LogInHandler extends RequestHandler {
                 request.getSession().setAttribute("nextMessage", "Successfully logged in");
                 return "RedirectServlet?command=Profile";
             } else {
+                request.setAttribute("userIdPreviousValue", userid);
                 request.setAttribute("errors", "Password Incorrect");
                 System.out.println("Login attempt failed, incorrect password!");
             }

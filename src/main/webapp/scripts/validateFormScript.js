@@ -65,7 +65,7 @@ function validateRegisterForm(){
         form["password"].className = "has-error";
     } let EMAIL_PATTERN = new RegExp("^.{8,}$");
     if (!password.match(EMAIL_PATTERN)) {
-        errors.push("Email is not valid");
+        errors.push("Password is not strong enough");
         form["password"].value = "";
         form["password"].className = "form-group has-error";
     } else form["password"].className = "form-group has-success";
@@ -75,12 +75,6 @@ function validateRegisterForm(){
         createErrorMessage(document.getElementsByTagName("form")[0], errors);
         return false;
     } else return true;
-}
-
-function getmydik(){
-    form = document.forms["reservationForm"];
-    startTime = form["startTime"].value;
-    console.log(startTime);
 }
 
 function validateReservationForm(){
@@ -107,7 +101,7 @@ function validateReservationForm(){
         errors.push("No field given");
         form["field"].value = "";
         form["field"].className = "form-group has-error";
-    } else form["userid"].className = "form-group has-success";
+    } else form["field"].className = "form-group has-success";
     if (phonenr.trim() === "") {
         errors.push("No phonenr given");
         form["phonenr"].value = "";

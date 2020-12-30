@@ -45,6 +45,7 @@ public class Reservation implements Comparable {
     }
 
     public void setUserid(String userid) {
+        if (userid == null || userid.isEmpty()) throw new IllegalArgumentException("No userid given");
         this.userid = userid;
     }
 
@@ -119,10 +120,12 @@ public class Reservation implements Comparable {
     public String getDateString() { return date.toString(); }
 
     public void setPhonenr(String phonenr) {
+        if (phonenr == null || phonenr.isEmpty()) throw new IllegalArgumentException("No phonenr given");
         this.phonenr = phonenr;
     }
 
     public void setEmail(String email) {
+        if (email == null || email.isEmpty()) throw new IllegalArgumentException("No email given");
         this.email = email;
     }
 

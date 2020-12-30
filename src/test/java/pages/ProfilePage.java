@@ -18,6 +18,21 @@ public class ProfilePage extends Page {
     @FindBy(id = "logIn")
     WebElement logInButton;
 
+    @FindBy(id = "logOut")
+    WebElement logOutButton;
+
+    @FindBy(id = "field")
+    WebElement fieldField;
+
+    @FindBy(id = "phonenr")
+    WebElement phonenrField;
+
+    @FindBy(id = "email")
+    WebElement emailField;
+
+    @FindBy(id = "makeReservation")
+    WebElement makeReservationField;
+
     public ProfilePage(WebDriver driver) {
         super(driver);
         driver.get(getPath() + "?command=Profile");
@@ -37,11 +52,56 @@ public class ProfilePage extends Page {
         passwordField.sendKeys(password);
     }
 
-    public ProfilePage submitValid(){
+    public ProfilePage submitValidLogIn(){
         logInButton.click();
         return PageFactory.initElements(driver, ProfilePage.class);
     }
 
+    public void submitInValidLogIn() {
+        logInButton.click();
+    }
 
+    /// LOGGED IN ///
+
+    public HomePage submitLogOut(){
+        logOutButton.click();
+        return PageFactory.initElements(driver, HomePage.class);
+    }
+
+    public void setFieldField(String field){
+        fieldField.clear();
+        fieldField.sendKeys(field);
+    }
+
+    public boolean hasStickyField(String field){
+        return field.equals(fieldField.getAttribute("value"));
+    }
+
+    public void setPhonenrField(String phonenr){
+        phonenrField.clear();
+        phonenrField.sendKeys(phonenr);
+    }
+
+    public boolean hasStickyPhonenr(String phonenr){
+        return phonenr.equals(phonenrField.getAttribute("value"));
+    }
+
+    public void setEmailField(String email){
+        emailField.clear();
+        emailField.sendKeys(email);
+    }
+
+    public boolean hasStickyEmail(String email){
+        return email.equals(emailField.getAttribute("value"));
+    }
+
+    public YourReservationsPage submitValidField(){
+        makeReservationField.click();
+        return PageFactory.initElements(driver, YourReservationsPage.class);
+    }
+
+    public void submitInValidField(){
+        makeReservationField.click();
+    }
 
 }

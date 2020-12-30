@@ -28,15 +28,16 @@ public class MakeReservationHandler extends RequestHandler{
         setPhonenr(r, request, errors);
         setEmail(r, request, errors);
 
-        System.out.println("Errors so far after processing fields:\n" + errors);
+
         if (errors.size() > 0){
+            System.out.println("Errors so far after processing fields:\n" + errors);
             request.setAttribute("errors", errors);
             return "Servlet?command=Profile";
         }
         try{
             DB.addReservation(r);
             request.getSession().setAttribute("nextMessage", "Your reservation has successfully registered");
-            return "RedirectServlet?command=Overview";
+            return "RedirectServlet?command=YourReservations";
         } catch (Exception e){
             errors.add(e.getMessage());
             request.setAttribute("errors", errors);

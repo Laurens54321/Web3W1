@@ -47,7 +47,7 @@ public class ReservationDBSQL {
     }
 
     public ArrayList<Reservation> getAll() {
-        ArrayList<Reservation> reservationList;
+        ArrayList<Reservation> reservationList = null;
         String sql = String.format("SELECT * FROM %s.reservations", this.schema);
 
         try{
@@ -60,6 +60,8 @@ public class ReservationDBSQL {
             reservationList = processResultSet(result);
         } catch (SQLException e) {
             throw new DbException(e);
+        } catch (IllegalArgumentException e){
+            System.out.println("Error while parsing reservation from database");
         }
         return reservationList;
     }

@@ -41,8 +41,6 @@ public class Person {
 		setLastName(lastName);
 		setRole(role);
 	}
-	
-
 
 	public String getUserid() {
 		return userid;
@@ -69,8 +67,6 @@ public class Person {
 		}
 		this.email = email;
 	}
-
-	
 	
 	public String getEmail() {
 		return email;

@@ -5,6 +5,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
+import pages.ProfilePage;
+import pages.YourReservationsPage;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,12 +26,15 @@ public class ReservationTest {
 
     @Before
     public void setUp() {
-        //System.setProperty("webdriver.chrome.driver", "/Users/.../web3pers/chromedriver");
-        // windows: gebruik dubbele \\ om pad aan te geven
-        // hint: zoek een werkende test op van web 2 ...
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\laure\\Documents\\school\\Web 3\\chromedriver.exe");
         driver = new ChromeDriver();
-        driver.get(path+"?command=Register");
+        driver.get(path+"?command=Profile");
+
+        ProfilePage profilePage = PageFactory.initElements(driver, ProfilePage.class);
+        profilePage.setUserid("admin");
+        profilePage.setPassword("t");
+        profilePage.submitValidLogIn();
+        assertEquals("Profile", profilePage.getTitle());
     }
 
     @After
@@ -36,173 +42,45 @@ public class ReservationTest {
         driver.quit();
     }
 
-
-
-
     @Test
-    public void test_login_Incorrect_Credentials() {
-        driver.get(path+"?command=Profile");
-
-        logIn("admin", "p");
-
-        String title = driver.getTitle();
-        assertEquals("Sign In",title);
-
-        WebElement errorMsg = driver.findElement(By.cssSelector("div.alert-danger ul li"));
-        assertEquals("Password Incorrect", errorMsg.getText());
-
-
+    public void test_Reservation_AllFieldFilledInCorrectly_Succes() {
+        ProfilePage profilePage = PageFactory.initElements(driver, ProfilePage.class);
+        profilePage.setFieldField("1");
+        profilePage.setPhonenrField("045678910");
+        profilePage.setEmailField("jan.janssens@hotmail.com");
+        YourReservationsPage yourReservationsPage = profilePage.submitValidField();
+        assertEquals("Your Reservations", yourReservationsPage.getTitle());
+        assertTrue(yourReservationsPage.containsReservationWithName("admin"));
     }
 
     @Test
-    public void test_Login_Nonexisting_Credentials() {
-        driver.get(path+"?command=Profile");
-
-        logIn("nonexistinguser", "p");
-
-        String title = driver.getTitle();
-        assertEquals("Sign In",title);
-
-        WebElement errorMsg = driver.findElement(By.cssSelector("div.alert-danger ul li"));
-        assertEquals("Username not found", errorMsg.getText());
+    public void test_Reservation_FieldNotFilledIn_OtherFieldsAreSticky_Fail() {
+        ProfilePage profilePage = PageFactory.initElements(driver, ProfilePage.class);
+        profilePage.setPhonenrField("045678910");
+        profilePage.setEmailField("jan.janssens@hotmail.com");
+        profilePage.submitInValidField();
+        assertEquals("Profile", profilePage.getTitle());
+        assertTrue(profilePage.hasErrorMessage("No field given"));
     }
 
     @Test
-    public void test_login_Correct_Credentials() {
-        driver.get(path+"?command=Profile");
-
-        logIn("admin", "t");
-
-        String title = driver.getTitle();
-        assertEquals("Profile",title);
-
+    public void test_Reservation_PhonenrNotFilledIn_OtherFieldsAreSticky_Fail() {
+        ProfilePage profilePage = PageFactory.initElements(driver, ProfilePage.class);
+        profilePage.setFieldField("1");
+        profilePage.setEmailField("jan.janssens@hotmail.com");
+        profilePage.submitInValidField();
+        assertEquals("Profile", profilePage.getTitle());
+        assertTrue(profilePage.hasErrorMessage("No phonenr given"));
     }
 
     @Test
-    public void test_Reservation_Incomplete0_Registration() {
-        driver.get(path+"?command=Profile");
-
-        logIn("admin", "t");
-
-        fillOutField("field", "6");
-        WebElement button=driver.findElement(By.id("makeReservation"));
-        button.click();
-
-        WebElement errorMsg = driver.findElement(By.cssSelector("div.alert-danger ul li"));
-        assertEquals("Reservation must have an start date.", errorMsg.getText());
+    public void test_Reservation_EmailNotFilledIn_OtherFieldsAreSticky_Fail() {
+        ProfilePage profilePage = PageFactory.initElements(driver, ProfilePage.class);
+        profilePage.setFieldField("1");
+        profilePage.setPhonenrField("045678910");
+        profilePage.submitInValidField();
+        assertEquals("Profile", profilePage.getTitle());
+        assertTrue(profilePage.hasErrorMessage("No email given"));
     }
 
-    @Test
-    public void test_Reservation_Incomplete1_Registration() {
-        driver.get(path+"?command=Profile");
-
-        logIn("admin", "t");
-
-        String s = LocalDateTime.now().format(dateTimeFormatter);
-
-        WebElement field=driver.findElement(By.id("startTime"));
-        field.clear();
-        field.sendKeys(s);
-        field.sendKeys("\n");
-
-
-        WebElement button=driver.findElement(By.id("makeReservation"));
-        button.click();
-
-        WebElement errorMsg = driver.findElement(By.cssSelector("div.alert-danger ul li"));
-        assertEquals("Reservation must have an end date.", errorMsg.getText());
-    }
-
-    /*
-        Test is useless because it cannot input properly
-
-    @Test
-    public void test_Reservation_Incomplete2_Registration() {
-        driver.get(path+"?command=Profile");
-
-        logIn("admin", "t");
-
-        String s = LocalDateTime.now().format(dateTimeFormatterformatter);
-        fillOutTimeField("startTime", s);
-
-
-        String ss = LocalDateTime.now().minusHours(12).format(dateTimeFormatterformatter);
-        fillOutTimeField("endTime", ss);
-
-        fillOutField("field", "6");
-        WebElement button=driver.findElement(By.id("makeReservation"));
-        button.click();
-
-        WebElement errorMsg = driver.findElement(By.cssSelector("div.alert-danger ul li"));
-        assertEquals("End date must be after start date", errorMsg.getText());
-    }
-
-     */
-
-
-    @Test
-    public void test_Reservation_Complete_Registration() {
-        driver.get(path+"?command=Profile");
-
-        logIn("admin", "t");
-
-        String s = LocalDateTime.now().format(dateTimeFormatter);
-        fillOutTimeField("startTime", s);
-
-        String ss = LocalDateTime.now().plusHours(2).format(timeFormatter);
-        fillOutField("endTime", ss);
-
-
-        fillOutField("field", "6");
-
-
-        WebElement button=driver.findElement(By.id("makeReservation"));
-        button.click();
-
-        String title = driver.getTitle();
-        assertEquals(title, "Overview");
-
-        List<WebElement> tds = driver.findElements(By.className("reservations"));
-
-
-        ArrayList<String> string = new ArrayList<>();
-        string.add("admin");
-        string.add(LocalDateTime.now().format(timeFormatter).strip());
-        assertTrue(tableContainsText(tds, string));
-    }
-
-    private void fillOutField(String name,String value) {
-        WebElement field=driver.findElement(By.id(name));
-        field.clear();
-        field.sendKeys(value);
-    }
-
-    private void fillOutTimeField(String name, String value){
-        WebElement field=driver.findElement(By.id(name));
-        field.clear();
-        field.sendKeys(value);
-        field.sendKeys("\n");
-    }
-
-    private void logIn(String userid, String password) {
-        fillOutField("userid", userid);
-        fillOutField("password", password);
-
-        WebElement button=driver.findElement(By.id("logIn"));
-        button.click();
-    }
-
-    private boolean tableContainsText (List<WebElement> elements, ArrayList<String> text) {
-        int tests = 0;
-        for (WebElement e : elements) {
-            List<WebElement> tds = e.findElements(By.cssSelector("td"));
-            for (WebElement td:tds  ) {
-                if (text.contains(td.getText().strip())) tests += 1;
-            }
-            System.out.println("Matches: " + tests);
-            if (tests == text.size()) return true;
-            else tests = 0;
-        }
-        return false;
-    }
 }

@@ -17,9 +17,6 @@ public class RegisterTest {
 
     @Before
     public void setUp() {
-        //System.setProperty("webdriver.chrome.driver", "/Users/.../web3pers/chromedriver");
-        // windows: gebruik dubbele \\ om pad aan te geven
-        // hint: zoek een werkende test op van web 2 ...
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\laure\\Documents\\school\\Web 3\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.get(path+"?command=Register");
@@ -27,7 +24,7 @@ public class RegisterTest {
 
     @After
     public void clean() {
-        //driver.quit();
+        driver.quit();
     }
 
     @Test
@@ -35,16 +32,17 @@ public class RegisterTest {
         String useridRandom = generateRandomUseridInOrderToRunTestMoreThanOnce("jakke");
 
         RegisterPage registerPage = PageFactory.initElements(driver, RegisterPage.class);
+        assertEquals("Sign Up", registerPage.getTitle());
         registerPage.setUserid(useridRandom);
         registerPage.setFirstName("Jans");
         registerPage.setLastName("Janssens");
         registerPage.setEmail("jan.janssens@hotmail.com");
         registerPage.setPassword("A1a&wateenwachtwoordzeg");
-        Thread.sleep(20000);
+        Thread.sleep(1000);
         PersonOverviewPage personOverviewPage = registerPage.submitValid();
 
         assertEquals("Overview", personOverviewPage.getTitle());
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         assertTrue(personOverviewPage.containsUserWithUserid(useridRandom));
 
     }
@@ -59,7 +57,7 @@ public class RegisterTest {
         registerPage.setPassword("A1a&wateenwachtwoordzeg");
 
         registerPage.submitInvalid();
-        assertEquals("Sign up",registerPage.getTitle());
+        assertEquals("Sign Up",registerPage.getTitle());
         assertTrue(registerPage.hasStickyFirstName("Jan"));
         assertTrue(registerPage.hasStickyLastName("Janssens"));
         assertTrue(registerPage.hasStickyEmail("jan.janssens@hotmail.com"));
@@ -68,119 +66,118 @@ public class RegisterTest {
 
     @Test
     public void test_Register_FirstNameNotFilledIn_ErrorMessageGivenForFirstNameAndOtherFieldsValueKept(){
-        submitForm("jakke", "", "Janssens", "jan.janssens@hotmail.com", "1234");
+        RegisterPage registerPage = PageFactory.initElements(driver, RegisterPage.class);
+        registerPage.setUserid("janneke");
+        registerPage.setLastName("Janssens");
+        registerPage.setEmail("jan.janssens@hotmail.com");
+        registerPage.setPassword("A1a&wateenwachtwoordzeg");
 
-        String title = driver.getTitle();
-        assertEquals("Sign Up",title);
-
-        WebElement errorMsg = driver.findElement(By.cssSelector("div.alert-danger ul li"));
-        assertEquals("No firstname given", errorMsg.getText());
-
-        WebElement fieldUserid=driver.findElement(By.id("userid"));
-        assertEquals("jakke",fieldUserid.getAttribute("value"));
-
-        WebElement fieldFirstName=driver.findElement(By.id("firstName"));
-        assertEquals("",fieldFirstName.getAttribute("value"));
-
-        WebElement fieldLastName=driver.findElement(By.id("lastName"));
-        assertEquals("Janssens",fieldLastName.getAttribute("value"));
-
-        WebElement fieldEmail=driver.findElement(By.id("email"));
-        assertEquals("jan.janssens@hotmail.com",fieldEmail.getAttribute("value"));
+        registerPage.submitInvalid();
+        assertEquals("Sign Up",registerPage.getTitle());
+        assertTrue(registerPage.hasStickyLastName("Janssens"));
+        assertTrue(registerPage.hasStickyEmail("jan.janssens@hotmail.com"));
+        assertTrue(registerPage.hasErrorMessage("No first name given"));
     }
 
     @Test
     public void test_Register_LastNameNotFilledIn_ErrorMessageGivenForLastNameAndOtherFieldsValueKept(){
-        submitForm("jakke", "Jan", "", "jan.janssens@hotmail.com", "1234");
+        RegisterPage registerPage = PageFactory.initElements(driver, RegisterPage.class);
+        registerPage.setUserid("janneke");
+        registerPage.setFirstName("Jan");
+        registerPage.setEmail("jan.janssens@hotmail.com");
+        registerPage.setPassword("A1a&wateenwachtwoordzeg");
 
-        String title = driver.getTitle();
-        assertEquals("Sign Up",title);
-
-        WebElement errorMsg = driver.findElement(By.cssSelector("div.alert-danger ul li"));
-        assertEquals("No last name given", errorMsg.getText());
-
-        WebElement fieldUserid=driver.findElement(By.id("userid"));
-        assertEquals("jakke",fieldUserid.getAttribute("value"));
-
-        WebElement fieldFirstName=driver.findElement(By.id("firstName"));
-        assertEquals("Jan",fieldFirstName.getAttribute("value"));
-
-        WebElement fieldLastName=driver.findElement(By.id("lastName"));
-        assertEquals("",fieldLastName.getAttribute("value"));
-
-        WebElement fieldEmail=driver.findElement(By.id("email"));
-        assertEquals("jan.janssens@hotmail.com",fieldEmail.getAttribute("value"));
+        registerPage.submitInvalid();
+        assertEquals("Sign Up",registerPage.getTitle());
+        assertTrue(registerPage.hasStickyUserid("janneke"));
+        assertTrue(registerPage.hasStickyFirstName("Jan"));
+        assertTrue(registerPage.hasStickyEmail("jan.janssens@hotmail.com"));
+        assertTrue(registerPage.hasErrorMessage("No last name given"));
     }
 
     @Test
     public void test_Register_EmailNotFilledIn_ErrorMessageGivenForEmailAndOtherFieldsValueKept(){
-        submitForm("jakke", "Jan", "Janssens", "", "1234");
+        RegisterPage registerPage = PageFactory.initElements(driver, RegisterPage.class);
+        registerPage.setUserid("janneke");
+        registerPage.setFirstName("Jan");
+        registerPage.setLastName("Janssens");
+        registerPage.setPassword("A1a&wateenwachtwoordzeg");
 
-        String title = driver.getTitle();
-        assertEquals("Sign Up",title);
+        registerPage.submitInvalid();
+        assertEquals("Sign Up",registerPage.getTitle());
+        assertTrue(registerPage.hasStickyUserid("janneke"));
+        assertTrue(registerPage.hasStickyFirstName("Jan"));
+        assertTrue(registerPage.hasStickyLastName("Janssens"));
+        assertTrue(registerPage.hasErrorMessage("No email given"));
+    }
 
-        WebElement errorMsg = driver.findElement(By.cssSelector("div.alert-danger ul li"));
-        assertEquals("No email given", errorMsg.getText());
-
-        WebElement fieldUserid=driver.findElement(By.id("userid"));
-        assertEquals("jakke",fieldUserid.getAttribute("value"));
-
-        WebElement fieldFirstName=driver.findElement(By.id("firstName"));
-        assertEquals("Jan",fieldFirstName.getAttribute("value"));
-
-        WebElement fieldLastName=driver.findElement(By.id("lastName"));
-        assertEquals("Janssens",fieldLastName.getAttribute("value"));
-
-        WebElement fieldEmail=driver.findElement(By.id("email"));
-        assertEquals("",fieldEmail.getAttribute("value"));
+    @Test
+    public void test_Register_EmailInvalid_ErrorMessageGivenForEmailAndOtherFieldsValueKept(){
+        RegisterPage registerPage = PageFactory.initElements(driver, RegisterPage.class);
+        assertEquals("Sign Up", registerPage.getTitle());
+        registerPage.setUserid("jakke");
+        registerPage.setFirstName("Jans");
+        registerPage.setLastName("Janssens");
+        registerPage.setEmail("email");
+        registerPage.setPassword("A1a&wateenwachtwoordzeg");
+        registerPage.submitInvalid();
+        assertTrue(registerPage.hasErrorMessage("Email is not valid"));
     }
 
     @Test
     public void test_Register_PasswordNotFilledIn_ErrorMessageGivenForEmailAndOtherFieldsValueKept(){
-        submitForm("jakke", "Jan", "Janssens", "jan.janssens@hotmail.com", "");
+        RegisterPage registerPage = PageFactory.initElements(driver, RegisterPage.class);
+        registerPage.setUserid("janneke");
+        registerPage.setFirstName("Jan");
+        registerPage.setLastName("Janssens");
+        registerPage.setEmail("jan.janssens@hotmail.com");
 
-        String title = driver.getTitle();
-        assertEquals("Sign Up",title);
-
-        WebElement errorMsg = driver.findElement(By.cssSelector("div.alert-danger ul li"));
-        assertEquals("No password given", errorMsg.getText());
-
-        WebElement fieldUserid=driver.findElement(By.id("userid"));
-        assertEquals("jakke",fieldUserid.getAttribute("value"));
-
-        WebElement fieldFirstName=driver.findElement(By.id("firstName"));
-        assertEquals("Jan",fieldFirstName.getAttribute("value"));
-
-        WebElement fieldLastName=driver.findElement(By.id("lastName"));
-        assertEquals("Janssens",fieldLastName.getAttribute("value"));
-
-        WebElement fieldEmail=driver.findElement(By.id("email"));
-        assertEquals("jan.janssens@hotmail.com",fieldEmail.getAttribute("value"));
+        registerPage.submitInvalid();
+        assertEquals("Sign Up",registerPage.getTitle());
+        assertTrue(registerPage.hasStickyUserid("janneke"));
+        assertTrue(registerPage.hasStickyFirstName("Jan"));
+        assertTrue(registerPage.hasStickyEmail("jan.janssens@hotmail.com"));
+        assertTrue(registerPage.hasErrorMessage("No password given"));
     }
 
     @Test
-    public void test_Register_UserAlreadyExists_ErrorMessageGiven(){
-        String useridRandom = generateRandomUseridInOrderToRunTestMoreThanOnce("pierke");
-        submitForm(useridRandom, "Pieter", "Pieters", "pieter.pieters@hotmail.com", "1234");
+    public void test_Register_PasswordInvalid_ErrorMessageGivenForEmailAndOtherFieldsValueKept(){
+        RegisterPage registerPage = PageFactory.initElements(driver, RegisterPage.class);
+        assertEquals("Sign Up", registerPage.getTitle());
+        registerPage.setUserid("jakke");
+        registerPage.setFirstName("Jans");
+        registerPage.setLastName("Janssens");
+        registerPage.setEmail("email");
+        registerPage.setPassword("t");
+        registerPage.submitInvalid();
+        assertTrue(registerPage.hasErrorMessage("Password is not strong enough"));
+    }
 
-        driver.get(path+"?command=Register");
+    @Test
+    public void test_Register_UserAlreadyExists_ErrorMessageGiven() throws InterruptedException {
+        String useridRandom = generateRandomUseridInOrderToRunTestMoreThanOnce("jakke");
 
-        submitForm(useridRandom, "Pieter", "Pieters", "pieter.pieters@hotmail.com", "1234");
+        RegisterPage registerPage = PageFactory.initElements(driver, RegisterPage.class);
+        assertEquals("Sign Up", registerPage.getTitle());
+        registerPage.setUserid(useridRandom);
+        registerPage.setFirstName("Jans");
+        registerPage.setLastName("Janssens");
+        registerPage.setEmail("jan.janssens@hotmail.com");
+        registerPage.setPassword("A1a&wateenwachtwoordzeg");
+        Thread.sleep(1000);
 
-        WebElement errorMsg = driver.findElement(By.cssSelector("div.alert-danger ul li"));
-        assertEquals("User with that username already exists", errorMsg.getText());
+        PersonOverviewPage personOverviewPage = registerPage.submitValid();
+        assertTrue(personOverviewPage.containsUserWithUserid(useridRandom));
 
-        WebElement fieldUserid=driver.findElement(By.id("userid"));
-        assertEquals(useridRandom,fieldUserid.getAttribute("value"));
-
-        WebElement fieldFirstName=driver.findElement(By.id("firstName"));
-        assertEquals("Pieter",fieldFirstName.getAttribute("value"));
-
-        WebElement fieldLastName=driver.findElement(By.id("lastName"));
-        assertEquals("Pieters",fieldLastName.getAttribute("value"));
-
-        WebElement fieldEmail=driver.findElement(By.id("email"));
-        assertEquals("pieter.pieters@hotmail.com",fieldEmail.getAttribute("value"));
+        registerPage = personOverviewPage.navigateToRegister();
+        assertEquals("Sign Up", registerPage.getTitle());
+        registerPage.setUserid(useridRandom);
+        registerPage.setFirstName("Jans");
+        registerPage.setLastName("Janssens");
+        registerPage.setEmail("jan.janssens@hotmail.com");
+        registerPage.setPassword("A1a&wateenwachtwoordzeg");
+        registerPage.submitInvalid();
+        assertTrue(registerPage.hasErrorMessage("User with that username already exists"));
     }
 
     private String generateRandomUseridInOrderToRunTestMoreThanOnce(String component) {

@@ -12,7 +12,7 @@ public class YourReservationsPage extends Page{
         driver.get(getPath() + "?command=YourReservations");
     }
 
-    public boolean containsReservationWithUserid(String userid) {
+    public boolean containsReservationWithName(String userid) {
         ArrayList<WebElement> listItems=(ArrayList<WebElement>) this.driver.findElements(By.cssSelector("td"));
         boolean found=false;
         for (WebElement listItem:listItems) {
