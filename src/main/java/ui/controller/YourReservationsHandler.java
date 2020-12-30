@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class YourReservationsHandler extends RequestHandler{
@@ -18,7 +19,7 @@ public class YourReservationsHandler extends RequestHandler{
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Override
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
+    public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
         Person.Role[] roles = {Person.Role.user, Person.Role.administrator};
         Authorization.checkrole(request, roles);
         LocalDate from = null;
@@ -37,10 +38,9 @@ public class YourReservationsHandler extends RequestHandler{
                     request.setAttribute("untilPreviousValue", untilString);
                 }
             }
-        } catch (Exception e){
+        } catch (DateTimeParseException e){
             request.setAttribute("messages", "Error while parsing selected range");
-            request.getRequestDispatcher("yourreservations.jsp").forward(request,response);
-            return;
+            return "yourreservations.jsp";
         }
 
         Person user = (Person) request.getSession().getAttribute("person");
@@ -52,6 +52,6 @@ public class YourReservationsHandler extends RequestHandler{
         else{
             request.setAttribute("reservations", reservations);
         }
-        request.getRequestDispatcher("yourreservations.jsp").forward(request,response);
+        return "yourreservations.jsp";
     }
 }

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class MakeReservationHandler extends RequestHandler{
     @Override
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
+    public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
         Person.Role[] roles = {Person.Role.user, Person.Role.administrator};
         Authorization.checkrole(request, roles);
 
@@ -34,14 +34,13 @@ public class MakeReservationHandler extends RequestHandler{
         }
         try{
             DB.addReservation(r);
+            request.getSession().setAttribute("nextMessage", "Your reservation has successfully registered");
+            return "RedirectServlet?command=Overview";
         } catch (Exception e){
             errors.add(e.getMessage());
             request.setAttribute("errors", errors);
-            request.getRequestDispatcher("Servlet?command=Profile").forward(request,response);
+            return "Servlet?command=Profile";
         }
-
-        //request.getRequestDispatcher("Servlet?command=Overview").forward(request,response);
-        response.sendRedirect("Servlet?command=Overview");
     }
 
 

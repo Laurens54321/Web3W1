@@ -11,13 +11,13 @@ import java.io.IOException;
 
 public class RemoveAllPersonsHandler extends RequestHandler{
     @Override
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
+    public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
         Person.Role[] roles = {Person.Role.administrator};
         Authorization.checkrole(request, roles);
 
         getDB().deleteAllPersons();
         request.getSession().removeAttribute("person");
-
-        response.sendRedirect("Servlet?command=Overview");
+        request.getSession().setAttribute("nextMessage", "All persons were removed from the database");
+        return "RedirectServlet?command=Overview";
     }
 }

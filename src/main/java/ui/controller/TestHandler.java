@@ -14,7 +14,7 @@ import ui.util.Authorization;
 
 public class TestHandler extends RequestHandler {
     @Override
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
+    public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
         Person.Role[] roles = {Person.Role.user, Person.Role.administrator};
         Authorization.checkrole(request, roles);
 
@@ -33,21 +33,22 @@ public class TestHandler extends RequestHandler {
                 if (errors.size() > 0){
                     System.out.println(test.toString());
                     request.setAttribute("errors", errors);
-                    request.getRequestDispatcher("registertest.jsp").forward(request,response);
-                } else{
+                    return "registertest.jsp";
+                } else {
                     try{
                         getDB().addTest(test);
+                        request.getSession().setAttribute("nextMessage", "Your test was registered successfully");
+                        return "RedirectServlet?command=YourReservations";
                     } catch (Exception e){
                         errors.add(e.getMessage());
                         request.setAttribute("errors", errors);
-                        request.getRequestDispatcher("registertest.jsp").forward(request,response);
+                        return "registertest.jsp";
                     }
-                    request.getRequestDispatcher("Servlet?command=YourReservations").forward(request,response);
                 }
             }
         }
         else{
-            request.getRequestDispatcher("registertest.jsp").forward(request, response);
+            return "registertest.jsp";
         }
     }
 

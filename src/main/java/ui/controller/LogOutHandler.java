@@ -11,12 +11,12 @@ import java.io.IOException;
 
 public class LogOutHandler extends RequestHandler {
     @Override
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
+    public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
         Person.Role[] roles = {Person.Role.user, Person.Role.administrator};
         Authorization.checkrole(request, roles);
 
         request.getSession().removeAttribute("person");
-        request.getRequestDispatcher("index.jsp").forward(request,response);
-
+        request.getSession().setAttribute("nextMessage", "You have been logged out");
+        return "RedirectServlet?command=Home";
     }
 }

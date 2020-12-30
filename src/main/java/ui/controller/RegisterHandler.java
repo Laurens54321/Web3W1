@@ -15,7 +15,7 @@ import static domain.model.Person.Role.administrator;
 
 public class RegisterHandler extends RequestHandler {
     @Override
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
+    public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
         Person.Role[] roles = {Person.Role.guest};
         Authorization.checkrole(request, roles);
 
@@ -33,27 +33,25 @@ public class RegisterHandler extends RequestHandler {
             String destination;
             if (errors.size() > 0){
                 request.setAttribute("errors", errors);
-                destination = "register.jsp";
+                return "register.jsp";
             }
             else {
                 try{
                     DB.addPerson(p);
                     request.getSession().setAttribute("person", p);
-                    destination = "Servlet?command=Overview";
-                    response.sendRedirect(destination);
+                    request.getSession().setAttribute("nextMessage", "You have been successfully registered");
+                    return "RedirectServlet?command=Overview";
                 } catch(DbException e){
                     System.out.println(e.getMessage());
                     errors.add(e.getMessage());
                     request.setAttribute("errors", errors);
-                    destination = "register.jsp";
-                    request.getRequestDispatcher(destination).forward(request,response);
+                    return "register.jsp";
                 }
             }
-
         }
 
         else{
-            response.sendRedirect("register.jsp");
+            return "register.jsp";
         }
     }
 

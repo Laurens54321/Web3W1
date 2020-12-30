@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class LogInHandler extends RequestHandler {
     @Override
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
+    public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
         Person.Role[] roles = {Person.Role.guest};
         Authorization.checkrole(request, roles);
 
@@ -21,23 +21,20 @@ public class LogInHandler extends RequestHandler {
         boolean loginAccept = false;
         String password = request.getParameter("password");
 
-        if (person != null && !password.isEmpty()){
+        if (person == null){
+            request.setAttribute("errors", "Username not found");
+        } else if (person != null && !password.isEmpty()){
             loginAccept = person.isCorrectPassword(password);
             System.out.println("Logged in as " + person.toString() );
 
             if (loginAccept){
                 request.getSession().setAttribute("person", person);
+                request.getSession().setAttribute("nextMessage", "Successfully logged in");
+                return "RedirectServlet?command=Profile";
+            } else {
+                request.setAttribute("errors", "Password Incorrect");
             }
         }
-
-        if (person != null && !loginAccept) {
-            request.setAttribute("errors", "Password Incorrect");
-        }
-        if (!userid.isEmpty() && person == null){
-            request.setAttribute("errors", "Username not found");
-        }
-
-        //request.getRequestDispatcher("profile.jsp").forward(request,response);
-        response.sendRedirect("profile.jsp");
+        return "profile.jsp";
     }
 }

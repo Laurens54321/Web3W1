@@ -12,11 +12,11 @@ import java.io.IOException;
 public class AllReservationsHandler extends RequestHandler {
 
     @Override
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
+    public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
         Person.Role[] roles = {Person.Role.administrator};
         Authorization.checkrole(request, roles);
 
         request.setAttribute("reservations", DB.getAllReservations());
-        request.getRequestDispatcher("allreservations.jsp").forward(request,response);
+        return "allreservations.jsp";
     }
 }

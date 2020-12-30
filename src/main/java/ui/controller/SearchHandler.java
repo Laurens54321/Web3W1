@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class SearchHandler extends RequestHandler {
     @Override
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
+    public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
         Person.Role[] roles = {Person.Role.user, Person.Role.administrator};
         Authorization.checkrole(request, roles);
 
@@ -32,6 +32,6 @@ public class SearchHandler extends RequestHandler {
         else{
             request.setAttribute("reservations", reservations);
         }
-        request.getRequestDispatcher("search.jsp").forward(request,response);
+        return "search.jsp";
     }
 }

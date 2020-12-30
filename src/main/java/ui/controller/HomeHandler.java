@@ -10,7 +10,7 @@ import java.io.IOException;
 public class HomeHandler extends RequestHandler{
 
     @Override
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
-        request.getRequestDispatcher("index.jsp").forward(request,response);
+    public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
+        return "index.jsp";
     }
 }

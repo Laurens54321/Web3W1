@@ -49,7 +49,6 @@
                                                               class="datepicker" value="${fromPreviousValue}" onchange="submitDate()"></p>
                     <p><label for="until">Until </label><input type="date" id="until" name="until"
                                                               class="datepicker" value="${untilPreviousValue}" onchange="submitDate()"></p>
-                    <input type="submit" id="filter" value="Filter">
                     <input type="submit" id="clearFilter" value="Clear filter" formaction="Servlet?command=YourReservations&ClearFilter=true">
                 </form>
             </div>

@@ -4,6 +4,7 @@ import domain.model.NotAuthorizedException;
 import domain.model.ContactTracingService;
 import ui.controller.RequestHandler;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,10 +28,11 @@ public class Servlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws  ServletException, IOException{
-        String destination = "index.jsp";
+        request.getSession().removeAttribute("message");
+        String destination = "RedirectServlet?command=Home";
         try{
             RequestHandler handler = handlerFactory.getHandler(request, response, DB);
-            handler.handleRequest(request, response);
+            destination = handler.handleRequest(request, response);
         } catch (NotAuthorizedException e){
             request.setAttribute("errors", "You do not have Access to that page");
             request.getRequestDispatcher("index.jsp").forward(request,response);
@@ -38,7 +40,14 @@ public class Servlet extends HttpServlet {
             request.setAttribute("errors", e);
             System.out.println(e);
             destination = "error.jsp";
-            request.getRequestDispatcher(destination).forward(request,response);
+        }
+        if (destination.startsWith("Redirect")) {
+            response.sendRedirect(destination.replaceFirst("Redirect", ""));
+        } else {
+            String message = (String) request.getSession().getAttribute("nextMessage");
+            request.getSession().removeAttribute("nextMessage");
+            request.setAttribute("message", message);
+            request.getRequestDispatcher(destination).forward(request, response);
         }
     }
 }

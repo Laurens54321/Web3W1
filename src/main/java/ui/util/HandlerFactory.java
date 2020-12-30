@@ -11,16 +11,15 @@ public class HandlerFactory {
         String command = request.getParameter("command");
         if (command == null || command.isEmpty()) command = "Home";
 
-        RequestHandler handler = null;
+        RequestHandler handler;
 
         try {
             Class handlerClass = Class.forName("ui.controller." + command + "Handler");
             Object handlerObject = handlerClass.getConstructor().newInstance();
             handler = (RequestHandler) handlerObject;
             handler.setDB(DB);
-        } catch (Exception e){
-            request.setAttribute("errors", e.getMessage());
-            throw new RuntimeException("The requested page could not be found" + "\n" + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException("This page does not exist");
         }
         return handler;
     }

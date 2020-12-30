@@ -12,7 +12,7 @@ public abstract class RequestHandler {
 
     protected ContactTracingService DB;
 
-    public abstract void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException;
+    public abstract String handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException;
 
     public void setDB(ContactTracingService service) { this.DB = service; }
 

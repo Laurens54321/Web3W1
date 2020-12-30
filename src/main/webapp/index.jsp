@@ -21,6 +21,12 @@
 			<h2>Home</h2>
 		</header>
 
+		<c:if test="${not empty message}">
+			<div class="message">
+				<p>${message}</p>
+			</div>
+		</c:if>
+
 		<c:if test="${not empty errors}">
 			<div class="alert-danger">
 				<p>${errors}</p>

@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class ProfileHandler extends RequestHandler{
     @Override
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
-        request.getRequestDispatcher("profile.jsp").forward(request,response);
+    public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, NotAuthorizedException, IOException {
+        return "profile.jsp";
     }
 }
